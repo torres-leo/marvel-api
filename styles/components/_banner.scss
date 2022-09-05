@@ -1,0 +1,19 @@
+.Banner {
+	width: 100%;
+	position: relative;
+
+	&-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex: 1;
+	}
+
+	&-image {
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		width: 100%;
+		height: 360px;
+	}
+}
