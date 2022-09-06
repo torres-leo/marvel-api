@@ -1,16 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import Character from './Character';
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-const Characters = ({ characters }) => {
-	const renderCharacter = () => characters.map((character) => <Character key={character.id} character={character} />);
+const CharacterCard = ({ character }) => {
+	const {
+		id,
+		name,
+		thumbnail: { path, extension },
+	} = character;
+
+	console.log(character);
 	return (
-		<div className='Characters'>
-			<div className='Characters-container'>
-				<div className='Characters-title'>Characters</div>
-				<div className='Characters-list'>{renderCharacter()}</div>
+		<article className='Characters-card'>
+			<div className='Characters-image'>
+				<Image width={200} height={150} layout='responsive' src={`${path}.${extension}`} alt={`Image ${name}`} />
 			</div>
-		</div>
+			<h3 className='Characters-name'>
+				<span>{name}</span>
+			</h3>
+			<Link href={`/characters/${id}`}>
+				<a className='Characters-redirect'>View Character</a>
+			</Link>
+		</article>
 	);
 };
 
-export default Characters;
+export default CharacterCard;

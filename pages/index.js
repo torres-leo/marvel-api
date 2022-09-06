@@ -1,6 +1,6 @@
 import Layout from '../components/Layout';
-import Characters from '../components/Characters';
-import axios from 'axios';
+import Characters from './characters';
+import { axiosClient } from '../config/axios';
 
 const Home = ({ characters }) => {
 	return <Characters characters={characters} />;
@@ -15,7 +15,7 @@ export async function getServerSideProps() {
 	const apiKey = `${process.env.NEXT_PUBLIC_API_KEY}`;
 	const hash = `${process.env.NEXT_PUBLIC_API_HASH}`;
 
-	const { data } = await axios.get(`${url}/characters?ts=1&apikey=${apiKey}&hash=${hash}`);
+	const { data } = await axiosClient.get(`${url}/characters?ts=1&apikey=${apiKey}&hash=${hash}`);
 	const characters = data.data.results;
 
 	return {
