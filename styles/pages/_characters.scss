@@ -1,0 +1,28 @@
+.Characters {
+	padding: 40px 0;
+
+	&-container {
+		margin: 0 auto;
+		width: 1480px;
+	}
+
+	&-title {
+		color: $white;
+		filter: drop-shadow(3px 2px 13px $white);
+		font-family: $font-primary;
+		font-size: 32px;
+		font-weight: 500;
+		letter-spacing: 0.2em;
+		margin-bottom: 40px;
+		text-align: center;
+		text-transform: uppercase;
+	}
+
+	&-list {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		width: 100%;
+	}
+}

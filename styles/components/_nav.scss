@@ -1,0 +1,23 @@
+.Nav {
+	background-color: $black;
+	display: flex;
+	align-items: center;
+	gap: 60px;
+	justify-content: center;
+	padding: 10px 0;
+	width: 100%;
+
+	&-link {
+		color: $white;
+		font-family: $font-secondary;
+		font-size: 22px;
+		font-weight: 400;
+		list-style: none;
+
+		&:hover {
+			cursor: pointer;
+			color: $red;
+			// filter: drop-shadow(1px 1px 10px $white);
+		}
+	}
+}

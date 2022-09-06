@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Header from '../Header';
+import AppNav from '../AppNav';
 
 const Layout = ({ children }) => {
 	return (
@@ -11,6 +12,7 @@ const Layout = ({ children }) => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Header />
+			<AppNav />
 			{children}
 		</>
 	);

@@ -1,7 +1,12 @@
-@import 'base/reset';
 @import 'base/fonts';
 @import 'base/variables';
+@import 'base/reset';
 
 @import 'components/header';
-@import 'components//banner';
-@import 'components/characters';
+@import 'components/banner';
+@import 'components/card';
+@import 'components/character';
+@import 'components/nav';
+
+@import 'pages/characters';
+@import 'pages/comics';

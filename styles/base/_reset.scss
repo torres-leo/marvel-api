@@ -3,3 +3,7 @@
 	margin: 0;
 	padding: 0;
 }
+
+body {
+	background: linear-gradient(90deg, map-get($blue, regular) 0%, map-get($blue, dark) 0%, map-get($blue, light) 99%);
+}

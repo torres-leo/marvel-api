@@ -3,12 +3,18 @@ $font-primary: 'Roboto', sans-serif;
 $font-secondary: 'Poppins', sans-serif;
 
 // Colors
+$black: rgb(34, 33, 33);
+$white: #ffffff;
+$green: #008000;
+$red: #fa172b;
+$gray: (
+	regular: #e5e5e5,
+);
 $blue: (
 	dark: rgba(19, 22, 65, 1),
 	regular: rgba(9, 9, 121, 1),
 	light: rgba(44, 47, 85, 1),
 );
-$white: #ffffff;
 $black-color: (
 	primary: #2b2540,
 	secondary: #212529,

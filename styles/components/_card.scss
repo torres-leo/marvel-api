@@ -1,0 +1,66 @@
+.Card {
+	border: 1.5px solid $white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-left-radius: 80px;
+	height: 390px;
+	padding: 20px 10px;
+	position: relative;
+
+	margin-bottom: 40px;
+	width: 350px;
+	transition: all 0.1s ease-in;
+
+	&:hover {
+		box-shadow: 3px 3px 15px $white;
+	}
+
+	&-image {
+		box-shadow: 5px 5px 20px map-get($black-color, secondary);
+		margin-bottom: 20px;
+	}
+
+	&-name {
+		color: $white;
+		font-family: $font-primary;
+		font-size: 21px;
+		text-align: center;
+
+		&::after {
+			background: $green;
+			content: '';
+			display: block;
+			height: 2px;
+			margin: 0 auto;
+			font-weight: 700;
+			margin-top: 8px;
+			opacity: 0.2;
+			text-align: center;
+			width: 150px;
+		}
+	}
+
+	&-redirect {
+		background-color: map-get($gray, regular);
+		border-radius: 5px;
+		bottom: 12px;
+		color: map-get($blue, regular);
+		font-family: $font-secondary;
+		font-weight: 600;
+		letter-spacing: 0.15em;
+		padding: 5px 10px;
+		position: absolute;
+		right: 12px;
+		text-decoration: none;
+		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			color: $red;
+			box-shadow: $shadow;
+		}
+	}
+
+	&.comic {
+		height: 440px;
+	}
+}
