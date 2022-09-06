@@ -9,7 +9,6 @@ const CharacterCard = ({ character }) => {
 		thumbnail: { path, extension },
 	} = character;
 
-	console.log(character);
 	return (
 		<article className='Characters-card'>
 			<div className='Characters-image'>
