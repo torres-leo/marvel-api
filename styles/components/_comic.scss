@@ -1,13 +1,13 @@
-.Character {
+.Comic {
 	// border: 1px solid white;
 	margin: 0 auto;
 	margin-bottom: 40px;
 	margin-top: 40px;
 	text-align: center;
-	width: 1600px;
+	width: 1650px;
 
 	&-name {
-		background-color: #e1e1e1;
+		background-color: map-get($gray, regular);
 		border-radius: 4px;
 		display: inline-block;
 		color: $black;
@@ -15,9 +15,20 @@
 		font-size: 28px;
 		font-weight: 600;
 		margin: 0 auto;
-		margin-bottom: 20px;
-		padding: 5px 10px;
+		margin-bottom: 35px;
+		padding: 10px 15px;
 		text-align: center;
+	}
+
+	&-title {
+		color: $black;
+		font-style: italic;
+		font-weight: 500;
+		margin-bottom: 130px;
+	}
+
+	&-info {
+		padding: 0 10px;
 	}
 
 	&-content {
@@ -33,7 +44,6 @@
 		border: 1px solid $white;
 		position: relative;
 		// width: 450px;
-
 		width: 100%;
 	}
 
@@ -41,25 +51,25 @@
 		border: 1px solid $white;
 		padding-bottom: 10px;
 		// width: 260px;
-		width: 60%;
+		width: 100%;
 	}
 
-	&-comics {
+	&-characters {
 		border: 1px solid $white;
 		padding-bottom: 10px;
 		// width: 450px;
 		width: 100%;
 	}
 
-	&-series {
+	&-stories {
 		border: 1px solid $white;
 		padding-bottom: 10px;
 		width: 100%;
 	}
 
-	&-title {
+	&-boxTitle {
 		background-color: $black;
-		color: $white;
+		color: $yellow;
 		font-family: $font-primary;
 		font-size: 21px;
 		letter-spacing: 2px;
@@ -74,19 +84,52 @@
 		color: $white;
 		font-family: $font-secondary;
 		font-size: 16px;
+		font-style: normal;
 		padding: 0 10px;
+		margin-bottom: 10px;
 		text-align: left;
-		// width: 100%;
 	}
 
-	&.notAvaible {
+	.notAvaible {
 		border: none;
 		color: $white;
 		font-family: $font-secondary;
 		font-size: 16px;
 		padding: 0 10px;
 		margin-top: 0;
-		text-align: center;
+		// text-align: center;
 		width: 100%;
+	}
+
+	&-list {
+		padding-left: 40px;
+	}
+
+	.resume {
+		font-style: italic;
+	}
+
+	.creators {
+		padding: 0;
+	}
+
+	.containerCharacters {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		border-bottom: 1px solid $white;
+
+		&:last-of-type {
+			border: none;
+		}
+
+		&:hover {
+			cursor: pointer;
+			background-color: #f7f7f72c;
+		}
+	}
+
+	.character {
+		margin: 0;
 	}
 }

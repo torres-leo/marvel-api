@@ -1,16 +1,14 @@
 import React from 'react';
-import axiosClient from '../../config/axios';
 import Image from 'next/image';
+import ReactHtmlParser from 'react-html-parser';
+import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
 
 const Character = ({ response }) => {
 	const [character] = response;
-	console.log(character);
 	const [series] = [character.series.items];
 	const [comics] = [character.comics.items];
 
-	// series.map((serie) => console.log(serie));
-	// console.log(character.series.items);
 	const {
 		name,
 		description,
@@ -18,7 +16,7 @@ const Character = ({ response }) => {
 	} = character;
 
 	const renderComics = () => {
-		if (!comics) return <p>No comics</p>;
+		if (!comics) return <p className='Character notAvaible'>No comics</p>;
 
 		return comics.map((comic, index) => (
 			<p key={index} className='Character-text'>
@@ -28,7 +26,7 @@ const Character = ({ response }) => {
 	};
 
 	const renderSeries = () => {
-		if (!series) return <p>No series</p>;
+		if (!series) return <p className='Character notAvaible'>No series</p>;
 
 		return series.map((serie, index) => (
 			<p key={index} className='Character-text'>
@@ -40,13 +38,13 @@ const Character = ({ response }) => {
 	const renderDescription = () => {
 		if (!description) return <p className='Character notAvaible'>Description not avaible.</p>;
 
-		return <p className='Character-text'>{description}</p>;
+		return <p className='Character-text'>{ReactHtmlParser(description)}</p>;
 	};
 
 	return (
 		<div className='Character'>
 			<h2 className='Character-name'>
-				<span>{name}</span>
+				<span>Character: {name}</span>
 			</h2>
 			<div className='Character-content'>
 				<div className='Character-image'>
@@ -64,7 +62,7 @@ const Character = ({ response }) => {
 					</h2>
 					{renderComics()}
 				</div>
-				<div className='Character-comics'>
+				<div className='Character-series'>
 					<h2 className='Character-title'>
 						<span>Series</span>
 					</h2>

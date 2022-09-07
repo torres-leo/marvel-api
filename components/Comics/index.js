@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const ComicsCard = ({ comic }) => {
-	// console.log(comic);
+	console.log(comic);
 	const {
 		id,
 		title,
@@ -19,7 +19,7 @@ const ComicsCard = ({ comic }) => {
 				<span>{title}</span>
 			</h3>
 			<Link href={`/comics/${id}`}>
-				<a className='Card-redirect'>View Character</a>
+				<a className='Card-redirect'>View Comic</a>
 			</Link>
 		</article>
 	);

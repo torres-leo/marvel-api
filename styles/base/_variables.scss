@@ -5,6 +5,7 @@ $font-secondary: 'Poppins', sans-serif;
 // Colors
 $black: rgb(34, 33, 33);
 $white: #ffffff;
+$yellow: #e7dd4c;
 $green: #008000;
 $red: #fa172b;
 $gray: (
@@ -14,10 +15,6 @@ $blue: (
 	dark: rgba(19, 22, 65, 1),
 	regular: rgba(9, 9, 121, 1),
 	light: rgba(44, 47, 85, 1),
-);
-$black-color: (
-	primary: #2b2540,
-	secondary: #212529,
 );
 
 $shadow: 8px 10px 24px rgb(0 0 0 / 10%);
