@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const ComicsCard = ({ comic }) => {
-	console.log(comic);
 	const {
 		id,
 		title,

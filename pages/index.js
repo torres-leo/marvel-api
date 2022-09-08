@@ -3,7 +3,6 @@ import Characters from './characters';
 import axiosClient from '../config/axios';
 
 const Home = ({ characters, data }) => {
-	console.log(data);
 	return <Characters characters={characters} />;
 };
 

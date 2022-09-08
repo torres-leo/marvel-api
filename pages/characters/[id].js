@@ -1,13 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import ReactHtmlParser from 'react-html-parser';
 import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
+import Icon from '/components/Icon';
 
 const Character = ({ response }) => {
 	const [character] = response;
 	const [series] = [character.series.items];
 	const [comics] = [character.comics.items];
+	console.log(character);
 
 	const {
 		name,
@@ -36,16 +39,23 @@ const Character = ({ response }) => {
 	};
 
 	const renderDescription = () => {
-		if (!description) return <p className='Character notAvaible'>Description not avaible.</p>;
+		if (!description) return <p className='Character notAvaible'>Resume not avaible.</p>;
 
 		return <p className='Character-text'>{ReactHtmlParser(description)}</p>;
 	};
 
 	return (
 		<div className='Character'>
-			<h2 className='Character-name'>
-				<span>Character: {name}</span>
-			</h2>
+			<div className='Character-head'>
+				<Link href='/'>
+					<a>
+						<Icon className='fa-regular fa-circle-left Back' title='Return page' />
+					</a>
+				</Link>
+				<h2 className='Character-name'>
+					<span>Character: {name}</span>
+				</h2>
+			</div>
 			<div className='Character-content'>
 				<div className='Character-image'>
 					<Image layout='fill' src={`${path}.${extension}`} alt={`Image ${name}`} priority />

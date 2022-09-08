@@ -21,8 +21,39 @@
 	&-list {
 		display: flex;
 		align-items: flex-start;
-		justify-content: space-between;
+		justify-content: flex-start;
+		gap: 20px;
 		flex-wrap: wrap;
 		width: 100%;
+	}
+
+	&-search {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 20px;
+		margin-bottom: 30px;
+	}
+
+	&-label {
+		color: $white;
+		font-family: $font-secondary;
+		font-size: 18px;
+		font-weight: 500;
+		letter-spacing: 1px;
+	}
+
+	&-input {
+		border: none;
+		border-radius: 8px;
+		display: block;
+		font-family: $font-secondary;
+		font-size: 15px;
+		font-weight: 500;
+		margin: 0 auto;
+		outline: none;
+		padding: 15px;
+		text-align: center;
+		width: 520px;
 	}
 }

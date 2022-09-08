@@ -9,7 +9,9 @@ const Login = () => {
 			<div className='Login-logo' />
 			<div className='Login-container'>
 				<form className='Login-form'>
-					<h1 className='Login-title'>Login</h1>
+					<h1 className='Login-title'>
+						<span>Login</span>
+					</h1>
 					<div className='Login-group'>
 						<label htmlFor='user' className='Login-label'>
 							Email / User
@@ -22,7 +24,7 @@ const Login = () => {
 						</label>
 						<Input id='password' type='password' className='Login-input' placeholder='Enter your password email' />
 					</div>
-					<Input type='submit' value='Sign in' className='Login-submit' />
+					<Input type='submit' value='Log in' className='Login-submit' />
 				</form>
 			</div>
 			<div className='Login-line' />

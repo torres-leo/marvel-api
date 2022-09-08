@@ -3,7 +3,7 @@ import Image from 'next/image';
 import ReactHtmlParser from 'react-html-parser';
 import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
-import Icon from '/components/Icon';
+import Icon from '../../components/Icon';
 import Link from 'next/link';
 
 const Comic = ({ response, responseCharacters }) => {
@@ -21,7 +21,7 @@ const Comic = ({ response, responseCharacters }) => {
 	console.log(comic);
 
 	const renderDescription = () => {
-		if (!description) return <p className='Comic-text notAvaible'>Description not avaible.</p>;
+		if (!description) return <span className='Comic-text notAvaible'>Description not avaible.</span>;
 		return <span className='Comic-text resume'>{ReactHtmlParser(description)}</span>;
 	};
 
@@ -36,7 +36,7 @@ const Comic = ({ response, responseCharacters }) => {
 	};
 
 	const renderCharacters = () => {
-		if (!characters) return <p>No characters</p>;
+		if (!characters.length) return <p className='notAvaible'>No characters Avaible</p>;
 		return characters.map((character) => {
 			const {
 				id,
@@ -68,7 +68,9 @@ const Comic = ({ response, responseCharacters }) => {
 		<div className='Comic'>
 			<div className='Comic-head'>
 				<Link href='/comics'>
-					<Icon className='fa-regular fa-circle-left Back' title='Return page' />
+					<a>
+						<Icon className='fa-regular fa-circle-left Back' title='Return page' />
+					</a>
 				</Link>
 				<h2 className='Comic-name'>
 					<span>Comic: </span>

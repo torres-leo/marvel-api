@@ -82,14 +82,10 @@
 		opacity: 0.9;
 		padding: 10px 10px;
 		width: 100%;
+		outline: none;
 
 		&::placeholder {
 			font-weight: 100;
-		}
-
-		&:focus {
-			// border: 2px dashed $green;
-			outline: none;
 		}
 	}
 

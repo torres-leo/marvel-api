@@ -1,0 +1,30 @@
+.Button {
+	background-color: $redDark;
+	border: none;
+	border-radius: 5px;
+	color: $white;
+	font-family: $font-secondary;
+	font-size: 18px;
+	padding: 10px;
+	outline: none;
+	text-align: center;
+	transition: all 0.3s ease-in-out;
+	width: 90px;
+
+	&:hover {
+		// background-color: $red;
+		cursor: pointer;
+	}
+
+	&:focus {
+		border: 1px solid $white;
+		background-color: $red;
+	}
+
+	&:focus-visible {
+		border: 1px solid $white;
+	}
+	&.active {
+		border: 1px solid $white;
+	}
+}
