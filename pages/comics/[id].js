@@ -3,6 +3,7 @@ import Image from 'next/image';
 import ReactHtmlParser from 'react-html-parser';
 import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
+import Icon from '/components/Icon';
 import Link from 'next/link';
 
 const Comic = ({ response, responseCharacters }) => {
@@ -65,10 +66,15 @@ const Comic = ({ response, responseCharacters }) => {
 
 	return (
 		<div className='Comic'>
-			<h2 className='Comic-name'>
-				<span>Comic: </span>
-				<span className='Comic-title'>{title}</span>
-			</h2>
+			<div className='Comic-head'>
+				<Link href='/comics'>
+					<Icon className='fa-regular fa-circle-left Back' title='Return page' />
+				</Link>
+				<h2 className='Comic-name'>
+					<span>Comic: </span>
+					<span className='Comic-title'>{title}</span>
+				</h2>
+			</div>
 			<div className='Comic-content'>
 				<div className='Comic-image'>
 					<Image layout='fill' src={`${path}.${extension}`} alt={`Image ${title}`} priority />

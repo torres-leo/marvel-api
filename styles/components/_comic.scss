@@ -7,7 +7,7 @@
 	width: 1650px;
 
 	&-name {
-		background-color: map-get($gray, regular);
+		background-color: $gray;
 		border-radius: 4px;
 		display: inline-block;
 		color: $black;
@@ -15,16 +15,20 @@
 		font-size: 28px;
 		font-weight: 600;
 		margin: 0 auto;
-		margin-bottom: 35px;
 		padding: 10px 15px;
 		text-align: center;
+	}
+
+	&-head {
+		display: flex;
+		margin-bottom: 35px;
+		align-items: center;
 	}
 
 	&-title {
 		color: $black;
 		font-style: italic;
 		font-weight: 500;
-		margin-bottom: 130px;
 	}
 
 	&-info {

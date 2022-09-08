@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
 			<Helmet>
 				<script src='https://kit.fontawesome.com/2e6341f303.js' async />
 			</Helmet>
-			<div>{getLayout(<Component {...pageProps} />)}</div>
+			{getLayout(<Component {...pageProps} />)}
 		</>
 	);
 }

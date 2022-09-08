@@ -1,0 +1,9 @@
+.Back {
+	font-size: 35px;
+	color: $white;
+
+	&:hover {
+		color: $white-opacity;
+		cursor: pointer;
+	}
+}

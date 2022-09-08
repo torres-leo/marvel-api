@@ -1,11 +1,24 @@
 .Nav {
 	background-color: $black;
-	display: flex;
-	align-items: center;
-	gap: 60px;
-	justify-content: center;
-	padding: 10px 0;
+	padding: 12px 0;
 	width: 100%;
+
+	&-content {
+		display: flex;
+		align-items: center;
+		// justify-content: center;
+		margin: 0 auto;
+		position: relative;
+		width: 1224px;
+	}
+
+	&-list {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 60px;
+		width: 100%;
+	}
 
 	&-link {
 		color: $white;
@@ -13,11 +26,33 @@
 		font-size: 22px;
 		font-weight: 400;
 		list-style: none;
+		text-align: center;
 
 		&:hover {
 			cursor: pointer;
 			color: $red;
 			// filter: drop-shadow(1px 1px 10px $white);
+		}
+	}
+
+	&-login {
+		border: 1px solid $white;
+		border-radius: 5px;
+		color: $white;
+		font-family: $font-secondary;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		padding: 4px 15px;
+		position: absolute;
+		right: 0;
+		text-align: center;
+		text-decoration: none;
+		transition: all 0.2s ease-in;
+
+		&:hover {
+			// background-color: $white;
+			border: 1px solid $red;
+			// color: $red;
 		}
 	}
 }

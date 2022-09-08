@@ -46,7 +46,7 @@
 	}
 
 	&-redirect {
-		background-color: map-get($gray, regular);
+		background-color: $gray;
 		border-radius: 5px;
 		bottom: 12px;
 		color: map-get($blue, regular);

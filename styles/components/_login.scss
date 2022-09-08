@@ -1,0 +1,125 @@
+.Login {
+	margin: 0 auto;
+	position: relative;
+	width: 100%;
+
+	&-container {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+		position: absolute;
+		top: 50%;
+		bottom: 50%;
+		width: 100%;
+	}
+
+	&-logo {
+		background: transparent;
+		background-image: url('https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700547729.jpg');
+		background-position: center center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		object-fit: cover;
+		height: 100vh;
+		width: 100%;
+	}
+
+	&-form {
+		background-color: $white-opacity;
+		border: 1px solid $red;
+		border-bottom-left-radius: 80px;
+		border-radius: 10px;
+		border-top-right-radius: 80px;
+		box-shadow: 1px 1px 50px $black;
+		padding: 20px;
+		width: 450px;
+	}
+
+	&-title {
+		color: $black;
+		font-family: $font-secondary;
+		font-size: 28px;
+		font-weight: 900;
+		letter-spacing: 0.1em;
+		margin-bottom: 25px;
+		text-align: center;
+		text-transform: uppercase;
+
+		&::after {
+			background: map-get($blue, dark);
+			display: block;
+			content: '';
+			height: 2px;
+			margin: 0 auto;
+			opacity: 0.5;
+			// width: 250px;
+			width: 100%;
+		}
+	}
+
+	&-group {
+		margin-bottom: 15px;
+	}
+
+	&-label {
+		color: $black;
+		display: block;
+		font-size: 18px;
+		font-family: $font-primary;
+		font-weight: 600;
+		margin-bottom: 5px;
+	}
+
+	&-input {
+		border: none;
+		background-color: $white;
+		border-radius: 8px;
+		display: block;
+		font-family: $font-secondary;
+		font-size: 14px;
+		font-weight: 500;
+		opacity: 0.9;
+		padding: 10px 10px;
+		width: 100%;
+
+		&::placeholder {
+			font-weight: 100;
+		}
+
+		&:focus {
+			// border: 2px dashed $green;
+			outline: none;
+		}
+	}
+
+	&-submit {
+		border: none;
+		background-color: $red;
+		border-radius: 8px;
+		color: $gray;
+		display: block;
+		font-family: $font-primary;
+		font-size: 18px;
+		font-weight: 500;
+		margin: 0 auto;
+		margin-top: 20px;
+		padding: 5px 30px;
+		text-transform: uppercase;
+		transition: all 0.25s ease-out;
+		width: 50%;
+
+		&:hover {
+			background-color: $redDark;
+			cursor: pointer;
+		}
+	}
+
+	&-line {
+		background-color: $red;
+		bottom: 0;
+		height: 15px;
+		width: 100%;
+		position: absolute;
+	}
+}
