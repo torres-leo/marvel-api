@@ -2,12 +2,12 @@
 	border: 2px solid $white;
 	border-radius: 10px;
 	// border-bottom-right-radius: 80px;
-	min-height: 460px;
-	margin-bottom: 40px;
+	min-height: 410px;
+	// margin-bottom: 40px;
 	padding: 10px;
 	position: relative;
 	transition: all 0.1s ease-in;
-	width: 360px;
+	width: 380px;
 
 	&:hover {
 		box-shadow: 3px 3px 15px $white;
@@ -25,9 +25,10 @@
 	&-info {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		height: 140px;
 		flex-direction: column;
+		gap: 30px;
+		justify-content: space-between;
+		// padding: 0 10px;
 	}
 
 	&-name {

@@ -1,40 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
 import ComicsCard from '../../components/Comics';
 import Input from '/components/Input';
 import { useDebounce } from '../../hooks/useDebounce';
 import Button from '/components/Button';
+import Icon from '/components/Icon';
 
 const Comics = ({ comics }) => {
-	console.log(comics);
 	const [listComics, setListComics] = useState(comics);
 	const [inputValue, setInputValue] = useState('');
-	const [active, setActive] = useState('All');
+	const [active, setActive] = useState('Title');
+	const [error, setError] = useState('');
+
+	useEffect(() => {
+		if (active === 'Issue') {
+			if (!Number(inputValue)) return setError('Must be a number');
+			setError('');
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [inputValue]);
 
 	useDebounce(
 		() => {
 			const search = async () => {
+				if (error) return;
 				let params = {};
 				if (inputValue.length) {
-					if (active === 'All') {
-						params = { titleStartsWith: inputValue };
-					}
+					params = { titleStartsWith: inputValue };
 
 					if (active === 'Format') {
 						params = { format: inputValue.trim() };
 					}
 
 					if (active === 'Issue') {
-						params = { issueNumber: Number(inputValue) };
+						params = { issueNumber: inputValue };
 					}
-
-					const { data } = await axiosClient(`/comics`, {
-						params,
-					});
-					const searchedComic = data.data.results;
-					setListComics(searchedComic);
 				}
+				const { data } = await axiosClient(`/comics`, {
+					params,
+				});
+
+				const searchedComic = data.data.results;
+				setListComics(searchedComic);
 			};
 			search();
 		},
@@ -42,9 +50,8 @@ const Comics = ({ comics }) => {
 		[inputValue]
 	);
 
-	console.log(inputValue);
-
 	const handleClick = (name) => {
+		setError('');
 		setActive(name);
 		setInputValue('');
 	};
@@ -54,9 +61,16 @@ const Comics = ({ comics }) => {
 	};
 
 	const renderComics = () => {
-		if (!listComics.length) return <p>No Comics Found</p>;
+		if (!listComics.length || error)
+			return (
+				<div className='NotFound'>
+					<p className='text'>{error ? error : 'Comic not Found'}</p>
+					<Icon className='fa-solid fa-circle-exclamation icon' />
+				</div>
+			);
 		return listComics.map((comic) => <ComicsCard key={comic.id} comic={comic} />);
 	};
+
 	return (
 		<div className='Comics'>
 			<div className='Comics-container'>
@@ -74,7 +88,7 @@ const Comics = ({ comics }) => {
 							className='Comics-input'
 							placeholder={`${
 								active === 'Format'
-									? 'Find comics by Format. Example: Comic, Magazine, Graphic Novel'
+									? 'Comic, Magazine, Graphic Novel, Digital Comic, etc .'
 									: active === 'Issue'
 									? 'Find comics by Issue Number'
 									: 'Find comics by Title'
@@ -83,21 +97,22 @@ const Comics = ({ comics }) => {
 							value={inputValue}
 						/>
 					</form>
-					<Button id='all' className={`Button ${active === 'All' ? 'active' : ''}`} onClick={() => handleClick('All')}>
-						All
+					<Button
+						id='title'
+						className={`Button ${active === 'Title' ? 'active' : ''}`}
+						onClick={() => handleClick('Title')}>
+						Title
 					</Button>
 					<Button
 						id='format'
 						className={`Button ${active === 'Format' ? 'active' : ''}`}
-						onClick={() => handleClick('Format')}
-					>
+						onClick={() => handleClick('Format')}>
 						Format
 					</Button>
 					<Button
 						id='issue'
 						className={`Button ${active === 'Issue' ? 'active' : ''}`}
-						onClick={() => handleClick('Issue')}
-					>
+						onClick={() => handleClick('Issue')}>
 						Issue
 					</Button>
 				</div>

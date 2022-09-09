@@ -3,7 +3,7 @@
 
 	&-container {
 		margin: 0 auto;
-		width: 1480px;
+		width: 1200px;
 	}
 
 	&-title {
@@ -21,8 +21,8 @@
 	&-list {
 		display: flex;
 		align-items: flex-start;
-		justify-content: flex-start;
-		gap: 20px;
+		justify-content: center;
+		gap: 30px;
 		flex-wrap: wrap;
 		width: 100%;
 	}

@@ -12,14 +12,16 @@ const CharacterCard = ({ character }) => {
 	return (
 		<article className='Card'>
 			<div className='Card-image'>
-				<Image width={326} height={240} layout='fixed' src={`${path}.${extension}`} alt={`Image ${name}`} priority />
+				<Image layout='fill' src={`${path}.${extension}`} alt={`Image ${name}`} priority />
 			</div>
-			<h3 className='Card-name'>
-				<span>{name}</span>
-			</h3>
-			<Link href={`/characters/${id}`}>
-				<a className='Card-redirect'>View Character</a>
-			</Link>
+			<div className='Card-info'>
+				<h3 className='Card-name'>
+					<span>{name}</span>
+				</h3>
+				<Link href={`/characters/${id}`}>
+					<a className='Card-redirect'>View Character</a>
+				</Link>
+			</div>
 		</article>
 	);
 };
