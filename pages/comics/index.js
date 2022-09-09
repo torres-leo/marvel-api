@@ -7,6 +7,7 @@ import { useDebounce } from '../../hooks/useDebounce';
 import Button from '/components/Button';
 
 const Comics = ({ comics }) => {
+	console.log(comics);
 	const [listComics, setListComics] = useState(comics);
 	const [inputValue, setInputValue] = useState('');
 	const [active, setActive] = useState('All');
@@ -19,10 +20,20 @@ const Comics = ({ comics }) => {
 					if (active === 'All') {
 						params = { titleStartsWith: inputValue };
 					}
+
+					if (active === 'Format') {
+						params = { format: inputValue.trim() };
+					}
+
+					if (active === 'Issue') {
+						params = { issueNumber: Number(inputValue) };
+					}
+
 					const { data } = await axiosClient(`/comics`, {
 						params,
 					});
-					setListComics(data.data.results);
+					const searchedComic = data.data.results;
+					setListComics(searchedComic);
 				}
 			};
 			search();
@@ -31,15 +42,21 @@ const Comics = ({ comics }) => {
 		[inputValue]
 	);
 
+	console.log(inputValue);
+
 	const handleClick = (name) => {
 		setActive(name);
+		setInputValue('');
 	};
 
 	const handleChange = (e) => {
 		setInputValue(e.target.value);
 	};
 
-	const renderComics = () => listComics.map((comic) => <ComicsCard key={comic.id} comic={comic} />);
+	const renderComics = () => {
+		if (!listComics.length) return <p>No Comics Found</p>;
+		return listComics.map((comic) => <ComicsCard key={comic.id} comic={comic} />);
+	};
 	return (
 		<div className='Comics'>
 			<div className='Comics-container'>
@@ -55,26 +72,32 @@ const Comics = ({ comics }) => {
 							id='filter'
 							type='text'
 							className='Comics-input'
-							placeholder='Find comics by title '
+							placeholder={`${
+								active === 'Format'
+									? 'Find comics by Format. Example: Comic, Magazine, Graphic Novel'
+									: active === 'Issue'
+									? 'Find comics by Issue Number'
+									: 'Find comics by Title'
+							}`}
 							onChange={handleChange}
+							value={inputValue}
 						/>
 					</form>
-					<Button
-						id='format'
-						className={`Button ${active === 'All' ? 'active' : ''}`}
-						onClick={() => handleClick('Format')}>
+					<Button id='all' className={`Button ${active === 'All' ? 'active' : ''}`} onClick={() => handleClick('All')}>
 						All
 					</Button>
 					<Button
 						id='format'
 						className={`Button ${active === 'Format' ? 'active' : ''}`}
-						onClick={() => handleClick('Format')}>
+						onClick={() => handleClick('Format')}
+					>
 						Format
 					</Button>
 					<Button
 						id='issue'
 						className={`Button ${active === 'Issue' ? 'active' : ''}`}
-						onClick={() => handleClick('Issue')}>
+						onClick={() => handleClick('Issue')}
+					>
 						Issue
 					</Button>
 				</div>

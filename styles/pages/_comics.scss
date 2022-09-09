@@ -4,7 +4,7 @@
 
 	&-container {
 		margin: 0 auto;
-		width: 1480px;
+		width: 1680px;
 	}
 
 	&-title {
@@ -22,8 +22,8 @@
 	&-list {
 		display: flex;
 		align-items: flex-start;
-		justify-content: flex-start;
-		gap: 20px;
+		justify-content: space-between;
+		// gap: 20px;
 		flex-wrap: wrap;
 		width: 100%;
 	}
@@ -53,6 +53,6 @@
 		outline: none;
 		padding: 15px;
 		text-align: center;
-		width: 520px;
+		width: 620px;
 	}
 }

@@ -1,7 +1,7 @@
 import Banner from '../Banner';
-import image1 from '/assets/img/229965.jpg';
-import image2 from '/assets/img/Marvel-wallpaper.jpg';
-import image3 from '/assets/img/94668.jpg';
+import image1 from '/assets/img/229965.webp';
+import image2 from '/assets/img/MarvelImage.webp';
+import image3 from '/assets/img/94668.webp';
 
 const Header = () => {
 	return (

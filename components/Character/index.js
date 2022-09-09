@@ -12,7 +12,7 @@ const CharacterCard = ({ character }) => {
 	return (
 		<article className='Card'>
 			<div className='Card-image'>
-				<Image layout='fill' src={`${path}.${extension}`} alt={`Image ${name}`} priority />
+				<Image width={326} height={240} layout='fixed' src={`${path}.${extension}`} alt={`Image ${name}`} priority />
 			</div>
 			<h3 className='Card-name'>
 				<span>{name}</span>
