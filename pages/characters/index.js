@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroller';
 import AsyncSelect from 'react-select/async';
 import Input from '/components/Input';
 import CharacterCard from '../../components/Character';
@@ -14,14 +15,19 @@ const Characters = ({ characters }) => {
 	const [selectedValue, setSelectedValue] = useState(null);
 	const [active, setActive] = useState('Name');
 
+	// useEffect(() => {
+	// 	setListCharacters(characters);
+	// }, []);
+
 	// let offset = 0;
+	// // let newCharacters = [];
 	// const loadMoreCharacters = async () => {
 	// 	const { data } = await axiosClient('/characters', { params: { offset: `${offset}` } });
-	// 	const newCharacters = data.data.results;
-	// 	const newCharactersRender = [];
-	// 	newCharacters.forEach((ch) => newCharactersRender.push(ch));
+	// 	const newCharacters = [];
+	// 	const newCharactersRender = data.data.results;
+	// 	newCharactersRender.forEach((ch) => newCharacters.push(ch));
+	// 	setListCharacters((prevState) => [...prevState, ...newCharacters]);
 	// 	offset += 10;
-	// 	setListCharacters((oldCharacters) => [...oldCharacters, ...newCharactersRender]);
 	// };
 
 	// const handleScroll = (e) => {
@@ -33,12 +39,13 @@ const Characters = ({ characters }) => {
 	// useEffect(() => {
 	// 	loadMoreCharacters();
 	// 	window.addEventListener('scroll', handleScroll);
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	// }, []);
 
-	useEffect(() => {
-		setListCharacters(characters);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [active]);
+	// useEffect(() => {
+	// 	setListCharacters(characters);
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [active]);
 
 	useEffect(() => {
 		const loadCharactersComic = async () => {
@@ -125,7 +132,7 @@ const Characters = ({ characters }) => {
 				</div>
 			);
 
-		return listCharacters.map((character) => <CharacterCard key={character.id} character={character} />);
+		return listCharacters?.map((character) => <CharacterCard key={character.id} character={character} />);
 	};
 
 	return (
