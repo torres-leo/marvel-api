@@ -15,9 +15,10 @@ const Comics = ({ comics }) => {
 
 	useEffect(() => {
 		if (active === 'Issue') {
-			if (!Number(inputValue)) return setError('Must be a number');
-			setError('');
+			if (isNaN(inputValue)) return setError('Must be a number');
 		}
+		setError('');
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [inputValue]);
 
@@ -88,10 +89,10 @@ const Comics = ({ comics }) => {
 							className='Comics-input'
 							placeholder={`${
 								active === 'Format'
-									? 'Comic, Magazine, Graphic Novel, Digital Comic, etc .'
+									? 'Try with: Comic, Magazine, Graphic Novel, Digital Comic, hardcover, etc..'
 									: active === 'Issue'
-									? 'Find comics by Issue Number'
-									: 'Find comics by Title'
+									? 'Find comics by Issue Number..'
+									: 'Find comics by Title..'
 							}`}
 							onChange={handleChange}
 							value={inputValue}
@@ -100,19 +101,22 @@ const Comics = ({ comics }) => {
 					<Button
 						id='title'
 						className={`Button ${active === 'Title' ? 'active' : ''}`}
-						onClick={() => handleClick('Title')}>
+						onClick={() => handleClick('Title')}
+					>
 						Title
 					</Button>
 					<Button
 						id='format'
 						className={`Button ${active === 'Format' ? 'active' : ''}`}
-						onClick={() => handleClick('Format')}>
+						onClick={() => handleClick('Format')}
+					>
 						Format
 					</Button>
 					<Button
 						id='issue'
 						className={`Button ${active === 'Issue' ? 'active' : ''}`}
-						onClick={() => handleClick('Issue')}>
+						onClick={() => handleClick('Issue')}
+					>
 						Issue
 					</Button>
 				</div>

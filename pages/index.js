@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import Characters from './characters';
 import axiosClient from '../config/axios';
 
-const Home = ({ characters, data }) => {
+const Home = ({ characters }) => {
 	return <Characters characters={characters} />;
 };
 
@@ -16,7 +17,6 @@ export async function getServerSideProps() {
 
 	return {
 		props: {
-			data,
 			characters,
 		},
 	};

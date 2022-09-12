@@ -11,7 +11,7 @@ const Comic = ({ response, responseCharacters }) => {
 	const [creators] = [comic.creators.items];
 	const [stories] = [comic.stories.items];
 	const [characters] = [responseCharacters];
-
+	console.log(comic);
 	const {
 		title,
 		description,

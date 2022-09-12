@@ -46,14 +46,53 @@
 	&-input {
 		border: none;
 		border-radius: 8px;
-		display: block;
+		display: none;
+		// display: block;
 		font-family: $font-secondary;
-		font-size: 15px;
-		font-weight: 500;
+		font-size: 14px;
+		font-weight: 400;
 		margin: 0 auto;
 		outline: none;
-		padding: 15px;
+		padding: 10px;
 		text-align: center;
 		width: 520px;
+	}
+
+	.select {
+		border-radius: 8px;
+		display: none;
+		font-family: $font-secondary;
+		font-size: 15px;
+		font-weight: 400;
+		text-align: center;
+		width: 520px;
+
+		.css-26l3qy-menu {
+			text-align: left;
+		}
+	}
+
+	.activeInput {
+		display: block;
+	}
+
+	.NotFound {
+		display: flex;
+		align-items: center;
+	}
+
+	.icon {
+		color: $white;
+		font-size: 20px;
+	}
+
+	.text {
+		border: none;
+		color: $white;
+		font-family: $font-secondary;
+		font-size: 20px;
+		padding: 0 10px;
+		margin-top: 0;
+		text-align: center;
 	}
 }

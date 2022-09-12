@@ -29,8 +29,6 @@
 		background-color: $white-opacity;
 		border: 1px solid $red;
 		border-radius: 10px;
-		border-top-right-radius: 80px;
-		border-bottom-left-radius: 80px;
 		box-shadow: 1px 1px 50px $black;
 		padding: 20px;
 		width: 450px;
@@ -106,7 +104,7 @@
 		width: 50%;
 
 		&:hover {
-			background-color: $redDark;
+			background-color: $red-light;
 			cursor: pointer;
 		}
 	}
