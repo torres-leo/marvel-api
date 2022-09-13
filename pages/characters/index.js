@@ -17,22 +17,8 @@ const Characters = ({ characters }) => {
 	const [selectedValue, setSelectedValue] = useState(null);
 	const [active, setActive] = useState('Name');
 
-	// let offset = 0;
 	// let newCharacters = [];
-	// const loadMoreCharacters = async () => {
-	// 	const { data } = await axiosClient('/characters', { params: { limit: 20, offset: `${offset}` } });
-	// 	const newCharacters = [];
-	// 	const newCharactersRender = data?.data.results;
-	// 	newCharactersRender?.forEach((ch) => newCharacters.push(ch));
-	// 	setListCharacters((prevState) => [...prevState, ...newCharacters]);
-	// 	offset += 10;
-	// };
-
-	// const handleScroll = (e) => {
-	// 	if (window.innerHeight + e.target.documentElement.scrollTop + 1 >= e.target.documentElement.scrollHeight) {
-	// 		loadMoreCharacters();
-	// 	}
-	// };
+	let offset = 0;
 
 	// useEffect(() => {
 	// 	loadMoreCharacters();
@@ -52,6 +38,7 @@ const Characters = ({ characters }) => {
 					const id = Number(selectedValue?.value);
 					const { data } = await axiosClient(`/comics/${id}/characters`);
 					const comicCharacters = data?.data.results;
+
 					setListCharacters((prevState) => (prevState = comicCharacters));
 				} else {
 					setListCharacters((prevState) => (prevState = characters));
