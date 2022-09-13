@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import AsyncSelect from 'react-select/async';
 import Input from '/components/Input';
 import CharacterCard from '../../components/Character';
@@ -10,22 +10,20 @@ import Icon from '../../components/Icon';
 
 const Characters = ({ characters }) => {
 	const [listCharacters, setListCharacters] = useState(characters);
+	// const [listCharacters, setListCharacters] = useState([]);
+	const [page, setPage] = useState(1);
 	const [inputValue, setInputValue] = useState('');
 	const [inputSelect, setInputSelect] = useState('');
 	const [selectedValue, setSelectedValue] = useState(null);
 	const [active, setActive] = useState('Name');
 
-	// useEffect(() => {
-	// 	setListCharacters(characters);
-	// }, []);
-
 	// let offset = 0;
-	// // let newCharacters = [];
+	// let newCharacters = [];
 	// const loadMoreCharacters = async () => {
-	// 	const { data } = await axiosClient('/characters', { params: { offset: `${offset}` } });
+	// 	const { data } = await axiosClient('/characters', { params: { limit: 20, offset: `${offset}` } });
 	// 	const newCharacters = [];
-	// 	const newCharactersRender = data.data.results;
-	// 	newCharactersRender.forEach((ch) => newCharacters.push(ch));
+	// 	const newCharactersRender = data?.data.results;
+	// 	newCharactersRender?.forEach((ch) => newCharacters.push(ch));
 	// 	setListCharacters((prevState) => [...prevState, ...newCharacters]);
 	// 	offset += 10;
 	// };
@@ -54,9 +52,9 @@ const Characters = ({ characters }) => {
 					const id = Number(selectedValue?.value);
 					const { data } = await axiosClient(`/comics/${id}/characters`);
 					const comicCharacters = data?.data.results;
-					setListCharacters(comicCharacters);
+					setListCharacters((prevState) => (prevState = comicCharacters));
 				} else {
-					setListCharacters(characters);
+					setListCharacters((prevState) => (prevState = characters));
 				}
 			}
 		};
@@ -66,18 +64,17 @@ const Characters = ({ characters }) => {
 
 	useDebounce(
 		() => {
-			const search = async () => {
+			const search = async (e) => {
 				let params = {};
 				if (inputValue.length) {
 					params = { nameStartsWith: inputValue };
-					const { data } = await axiosClient(`/characters`, {
-						params,
-					});
-					const character = data.data.results;
-					setListCharacters(character);
-				} else {
-					setListCharacters(characters);
 				}
+
+				const { data } = await axiosClient(`/characters`, {
+					params,
+				});
+				const character = data.data.results;
+				setListCharacters((prevState) => (prevState = character));
 			};
 			search();
 		},
@@ -93,7 +90,7 @@ const Characters = ({ characters }) => {
 		setActive(name);
 		setInputValue('');
 		setInputSelect('');
-		setSelectedValue(null);
+		setSelectedValue((prevState) => (prevState = null));
 	};
 
 	const handleInputSelect = (value) => {
@@ -116,7 +113,7 @@ const Characters = ({ characters }) => {
 	};
 
 	const renderCharacters = () => {
-		if (!listCharacters.length && selectedValue)
+		if (!listCharacters?.length && selectedValue)
 			return (
 				<div className='NotFound'>
 					<p className='text'>This comic has no characters</p>
@@ -124,7 +121,7 @@ const Characters = ({ characters }) => {
 				</div>
 			);
 
-		if (!listCharacters.length)
+		if (!listCharacters?.length)
 			return (
 				<div className='NotFound'>
 					<p className='text'>Character not Found</p>
@@ -170,7 +167,9 @@ const Characters = ({ characters }) => {
 						Comics
 					</Button>
 				</div>
+				{/* <InfiniteScroll dataLength={listCharacters.length} hasMore={true} next={(prevPage) => prevPage + 1}> */}
 				<div className='Characters-list'>{renderCharacters()}</div>
+				{/* </InfiniteScroll> */}
 			</div>
 		</div>
 	);
