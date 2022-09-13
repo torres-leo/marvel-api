@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import AsyncSelect from 'react-select/async';
 import Input from '/components/Input';
 import CharacterCard from '../../components/Character';
@@ -10,54 +10,25 @@ import Icon from '../../components/Icon';
 
 const Characters = ({ characters }) => {
 	const [listCharacters, setListCharacters] = useState(characters);
+	const [hasMore, setHasMore] = useState(true);
+	const [pageLimit, setPageLimit] = useState(20);
+	const [pages, setPages] = useState(0);
+	const [offset, setOffset] = useState(20);
 	const [inputValue, setInputValue] = useState('');
 	const [inputSelect, setInputSelect] = useState('');
 	const [selectedValue, setSelectedValue] = useState(null);
+
 	const [active, setActive] = useState('Name');
-
-	// useEffect(() => {
-	// 	setListCharacters(characters);
-	// }, []);
-
-	// let offset = 0;
-	// // let newCharacters = [];
-	// const loadMoreCharacters = async () => {
-	// 	const { data } = await axiosClient('/characters', { params: { offset: `${offset}` } });
-	// 	const newCharacters = [];
-	// 	const newCharactersRender = data.data.results;
-	// 	newCharactersRender.forEach((ch) => newCharacters.push(ch));
-	// 	setListCharacters((prevState) => [...prevState, ...newCharacters]);
-	// 	offset += 10;
-	// };
-
-	// const handleScroll = (e) => {
-	// 	if (window.innerHeight + e.target.documentElement.scrollTop + 1 >= e.target.documentElement.scrollHeight) {
-	// 		loadMoreCharacters();
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	loadMoreCharacters();
-	// 	window.addEventListener('scroll', handleScroll);
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, []);
-
-	// useEffect(() => {
-	// 	setListCharacters(characters);
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [active]);
 
 	useEffect(() => {
 		const loadCharactersComic = async () => {
-			if (active === 'Comics') {
-				if (selectedValue) {
-					const id = Number(selectedValue?.value);
-					const { data } = await axiosClient(`/comics/${id}/characters`);
-					const comicCharacters = data?.data.results;
-					setListCharacters(comicCharacters);
-				} else {
-					setListCharacters(characters);
-				}
+			if (active === 'Comics' && selectedValue) {
+				const id = Number(selectedValue?.value);
+				const { data } = await axiosClient(`/comics/${id}/characters`);
+				const comicCharacters = data.data.results;
+				setListCharacters((prevState) => (prevState = comicCharacters));
+			} else {
+				setListCharacters((prevState) => (prevState = characters));
 			}
 		};
 		loadCharactersComic();
@@ -70,14 +41,12 @@ const Characters = ({ characters }) => {
 				let params = {};
 				if (inputValue.length) {
 					params = { nameStartsWith: inputValue };
-					const { data } = await axiosClient(`/characters`, {
-						params,
-					});
-					const character = data.data.results;
-					setListCharacters(character);
-				} else {
-					setListCharacters(characters);
 				}
+				const { data } = await axiosClient(`/characters`, {
+					params,
+				});
+				const character = data.data.results;
+				setListCharacters((prevState) => (prevState = character));
 			};
 			search();
 		},
@@ -93,7 +62,7 @@ const Characters = ({ characters }) => {
 		setActive(name);
 		setInputValue('');
 		setInputSelect('');
-		setSelectedValue(null);
+		setSelectedValue((prevState) => (prevState = null));
 	};
 
 	const handleInputSelect = (value) => {
@@ -115,8 +84,27 @@ const Characters = ({ characters }) => {
 		callback(searchedComic.map((comic) => ({ label: `${comic.title}`, value: `${comic.id}` })));
 	};
 
+	const getMoreCharacters = () => {
+		setPages((prevState) => prevState + 1);
+	};
+
+	useEffect(() => {
+		if (!pages) return;
+		const getInfoCharacters = async () => {
+			let params = { limit: pageLimit, offset: offset * pages };
+			const { data } = await axiosClient(`/characters`, {
+				params,
+			});
+			const getCharacters = data.data.results;
+			setListCharacters((prevState) => [...prevState, ...getCharacters]);
+			setHasMore(listCharacters.length <= data.data.total);
+		};
+		getInfoCharacters();
+		//eslint-disable-next-line
+	}, [pages]);
+
 	const renderCharacters = () => {
-		if (!listCharacters.length && selectedValue)
+		if (!listCharacters?.length && selectedValue)
 			return (
 				<div className='NotFound'>
 					<p className='text'>This comic has no characters</p>
@@ -124,7 +112,7 @@ const Characters = ({ characters }) => {
 				</div>
 			);
 
-		if (!listCharacters.length)
+		if (!listCharacters?.length)
 			return (
 				<div className='NotFound'>
 					<p className='text'>Character not Found</p>
@@ -170,7 +158,9 @@ const Characters = ({ characters }) => {
 						Comics
 					</Button>
 				</div>
-				<div className='Characters-list'>{renderCharacters()}</div>
+				<InfiniteScroll dataLength={listCharacters.length} hasMore={hasMore} next={getMoreCharacters}>
+					<div className='Characters-list'>{renderCharacters()}</div>
+				</InfiniteScroll>
 			</div>
 		</div>
 	);
