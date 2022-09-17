@@ -1,9 +1,10 @@
 .Characters {
-	padding: 40px 0;
+	padding-top: 40px;
+	padding-bottom: 40px;
 
 	&-container {
 		margin: 0 auto;
-		width: 1200px;
+		width: 1250px;
 	}
 
 	&-title {
@@ -21,9 +22,10 @@
 	&-list {
 		display: flex;
 		align-items: flex-start;
-		justify-content: center;
-		gap: 30px;
 		flex-wrap: wrap;
+		gap: 30px;
+		justify-content: center;
+		margin: 10px 0;
 		width: 100%;
 	}
 
@@ -55,7 +57,7 @@
 		outline: none;
 		padding: 10px;
 		text-align: center;
-		width: 520px;
+		width: 550px;
 	}
 
 	.select {
@@ -65,7 +67,7 @@
 		font-size: 15px;
 		font-weight: 400;
 		text-align: center;
-		width: 520px;
+		width: 550px;
 
 		.css-26l3qy-menu {
 			text-align: left;

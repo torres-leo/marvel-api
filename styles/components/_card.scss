@@ -10,7 +10,7 @@
 	width: 380px;
 
 	&:hover {
-		box-shadow: 3px 3px 15px $white;
+		box-shadow: 0px 1px 10px $yellow;
 	}
 
 	&-image {
@@ -28,7 +28,15 @@
 		flex-direction: column;
 		gap: 30px;
 		justify-content: space-between;
-		// padding: 0 10px;
+
+		&.comic {
+			height: 150px;
+		}
+	}
+
+	&-link {
+		position: relative;
+		width: 100%;
 	}
 
 	&-name {
@@ -39,14 +47,14 @@
 		text-align: center;
 
 		&::after {
-			background: $green;
+			background: $yellow;
 			content: '';
 			display: block;
-			height: 2px;
+			height: 1px;
 			margin: 0 auto;
 			font-weight: 700;
 			margin-top: 10px;
-			opacity: 0.2;
+			opacity: 0.7;
 			text-align: center;
 			width: 150px;
 		}
@@ -55,17 +63,12 @@
 	&-redirect {
 		background-color: $gray;
 		border-radius: 5px;
-		// bottom: 12px;
 		color: map-get($blue, regular);
 		display: block;
 		font-family: $font-secondary;
 		font-weight: 600;
 		letter-spacing: 0.15em;
 		padding: 5px 10px;
-		// position: absolute;
-		// right: 12px;
-		// left: 12px;
-		// right: 0;
 		text-align: center;
 		text-decoration: none;
 		transition: all 0.2s ease-in-out;
@@ -75,9 +78,15 @@
 			color: $red;
 			box-shadow: $shadow;
 		}
+
+		&.comic {
+			position: absolute;
+			bottom: 0px;
+		}
 	}
 
 	&.comic {
-		height: 440px;
+		height: 460px;
+		width: 440px;
 	}
 }

@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const ComicsCard = ({ comic }) => {
-	// console.log(comic);
 	const {
 		id,
 		title,
@@ -13,22 +12,17 @@ const ComicsCard = ({ comic }) => {
 	return (
 		<article className='Card comic'>
 			<div className='Card-image'>
-				<Image
-					layout='fill'
-					src={`${path}.${extension}`}
-					alt={`Image ${title}`}
-					quality={100}
-					// objectFit='cover'
-					priority
-				/>
+				<Image layout='fill' src={`${path}.${extension}`} alt={`Image ${title}`} quality={100} priority />
 			</div>
-			<div className='Card-info'>
+			<div className='Card-info comic'>
 				<h3 className='Card-name'>
 					<span>{title}</span>
 				</h3>
-				<Link href={`/comics/${id}`}>
-					<a className='Card-redirect'>View Comic</a>
-				</Link>
+				<div className='Card-link'>
+					<Link href={`/comics/${id}`}>
+						<a className='Card-redirect comic'>View Comic</a>
+					</Link>
+				</div>
 			</div>
 		</article>
 	);

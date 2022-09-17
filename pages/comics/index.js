@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
 import ComicsCard from '../../components/Comics';
@@ -9,6 +10,11 @@ import Icon from '/components/Icon';
 
 const Comics = ({ comics }) => {
 	const [listComics, setListComics] = useState(comics);
+	const [searchedComic, setSearchedComic] = useState([]);
+	const [hasMore, setHasMore] = useState(true);
+	const [pageLimit, setPageLimit] = useState(20);
+	const [pages, setPages] = useState(0);
+	const [offset, setOffset] = useState(20);
 	const [inputValue, setInputValue] = useState('');
 	const [active, setActive] = useState('Title');
 	const [error, setError] = useState('');
@@ -28,26 +34,33 @@ const Comics = ({ comics }) => {
 				if (error) return;
 				let params = {};
 				if (inputValue.length) {
-					params = { titleStartsWith: inputValue };
+					params = { titleStartsWith: inputValue, limit: 50 };
 
 					if (active === 'Format') {
-						params = { format: inputValue.trim() };
+						params = { format: inputValue.trim(), limit: 100 };
 					}
 
 					if (active === 'Issue') {
-						params = { issueNumber: inputValue };
+						params = { issueNumber: inputValue, limit: 100 };
 					}
+					const { data } = await axiosClient(`/comics`, {
+						params,
+					});
+					const searchedComic = data.data.results;
+					if (!searchedComic.length) {
+						setError('Comic Not Found');
+					} else {
+						setError('');
+						setSearchedComic(searchedComic);
+					}
+				} else {
+					setError('');
+					setSearchedComic([]);
 				}
-				const { data } = await axiosClient(`/comics`, {
-					params,
-				});
-
-				const searchedComic = data.data.results;
-				setListComics(searchedComic);
 			};
 			search();
 		},
-		800,
+		200,
 		[inputValue]
 	);
 
@@ -61,11 +74,42 @@ const Comics = ({ comics }) => {
 		setInputValue(e.target.value);
 	};
 
-	const renderComics = () => {
-		if (!listComics.length || error)
+	const getMoreComics = () => {
+		setPages((prevState) => prevState + 1);
+	};
+
+	useEffect(() => {
+		if (!pages) return;
+		const getInfoCharacters = async () => {
+			let params = { limit: pageLimit, offset: offset * pages };
+			const { data } = await axiosClient(`/comics`, {
+				params,
+			});
+			const getComics = data.data.results;
+			setListComics((prevState) => [...prevState, ...getComics]);
+			setHasMore(listComics.length <= data.data.total);
+		};
+		getInfoCharacters();
+		//eslint-disable-next-line
+	}, [pages]);
+
+	const renderSearchedComic = () => {
+		if (error)
 			return (
 				<div className='NotFound'>
-					<p className='text'>{error ? error : 'Comic not Found'}</p>
+					<p className='text'>{error}</p>
+					<Icon className='fa-solid fa-circle-exclamation icon' />
+				</div>
+			);
+
+		return searchedComic.map((comic) => <ComicsCard key={comic.id} comic={comic} />);
+	};
+
+	const renderComics = () => {
+		if (error)
+			return (
+				<div className='NotFound'>
+					<p className='text'>{error}</p>
 					<Icon className='fa-solid fa-circle-exclamation icon' />
 				</div>
 			);
@@ -120,7 +164,15 @@ const Comics = ({ comics }) => {
 						Issue
 					</Button>
 				</div>
-				<div className='Comics-list'>{renderComics()}</div>
+				<>
+					{!searchedComic.length ? (
+						<InfiniteScroll dataLength={listComics.length} hasMore={hasMore} next={getMoreComics}>
+							<div className='Comics-list'>{renderComics()}</div>
+						</InfiniteScroll>
+					) : (
+						<div className='Comics-list'>{renderSearchedComic()}</div>
+					)}
+				</>
 			</div>
 		</div>
 	);
@@ -129,7 +181,7 @@ const Comics = ({ comics }) => {
 Comics.getLayout = (page) => <Layout>{page}</Layout>;
 
 export async function getServerSideProps() {
-	const { data } = await axiosClient('/comics');
+	const { data } = await axiosClient('/comics', { params: { limit: 20, offset: 0 } });
 	const comics = data.data.results;
 
 	return {

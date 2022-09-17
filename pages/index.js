@@ -3,8 +3,6 @@ import Layout from '../components/Layout';
 import Characters from './characters';
 import axiosClient from '../config/axios';
 
-// https://www.youtube.com/watch?v=VbXAwjAxfU0
-
 const Home = ({ characters }) => {
 	return <Characters characters={characters} />;
 };

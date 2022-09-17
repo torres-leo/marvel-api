@@ -1,10 +1,13 @@
 .Comics {
-	height: auto;
 	padding: 40px 0;
 
 	&-container {
 		margin: 0 auto;
-		width: 1200px;
+		width: 1400px;
+	}
+
+	.infinite-scroll-component {
+		overflow: hidden !important;
 	}
 
 	&-title {
@@ -59,11 +62,13 @@
 	.NotFound {
 		display: flex;
 		align-items: center;
+		justify-content: center;
+		width: 100%;
 	}
 
 	.icon {
 		color: $white;
-		font-size: 24px;
+		font-size: 20px;
 	}
 
 	.text {
@@ -74,7 +79,5 @@
 		padding: 0 10px;
 		margin-top: 0;
 		text-align: center;
-		text-transform: uppercase;
-		width: 100%;
 	}
 }
