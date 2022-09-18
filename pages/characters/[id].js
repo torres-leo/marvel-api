@@ -6,11 +6,10 @@ import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
 import Icon from '/components/Icon';
 
-const Character = ({ response }) => {
+const Character = ({ response, responseComics }) => {
 	const [character] = response;
 	const [series] = [character.series.items];
-	const [comics] = [character.comics.items];
-	console.log(character);
+	const [comics] = [responseComics];
 
 	const {
 		name,
@@ -21,11 +20,28 @@ const Character = ({ response }) => {
 	const renderComics = () => {
 		if (!comics) return <p className='Character notAvaible'>No comics</p>;
 
-		return comics.map((comic, index) => (
-			<p key={index} className='Character-text'>
-				{comic.name}
-			</p>
-		));
+		return comics.map((comic) => {
+			const {
+				id,
+				title,
+				thumbnail: { path, extension },
+			} = comic;
+			return (
+				<Link href={`/comics/${id}`} key={comic.id}>
+					<div className='containerComics'>
+						{/* <Image
+							width={45}
+							height={45}
+							layout='fixed'
+							src={`${path}.${extension}`}
+							alt={`Image ${name}`}
+							objectFit='cover'
+						/> */}
+						<p className='Character-text'>{title}</p>
+					</div>
+				</Link>
+			);
+		});
 	};
 
 	const renderSeries = () => {
@@ -52,6 +68,7 @@ const Character = ({ response }) => {
 						<Icon className='fa-regular fa-circle-left Back' title='Return page' />
 					</a>
 				</Link>
+
 				<h2 className='Character-name'>
 					<span>Character: {name}</span>
 				</h2>
@@ -89,9 +106,13 @@ export async function getServerSideProps({ query: { id } }) {
 	const { data } = await axiosClient(`/characters/${id}`);
 	const response = data.data.results;
 
+	const { data: comics } = await axiosClient(`/characters/${id}/comics`);
+	const responseComics = comics.data.results;
+
 	return {
 		props: {
 			response,
+			responseComics,
 		},
 	};
 }

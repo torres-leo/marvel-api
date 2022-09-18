@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet';
 import '/styles/main.scss';
+import 'bootstrap/dist/css/bootstrap.css';
 
 function MyApp({ Component, pageProps }) {
 	const getLayout = Component.getLayout ?? ((page) => page);

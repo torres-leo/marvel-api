@@ -46,7 +46,14 @@ const Comic = ({ response, responseCharacters }) => {
 			return (
 				<Link href={`/characters/${id}`} key={character.id}>
 					<div className='containerCharacters'>
-						<Image width={42} height={42} layout='fixed' src={`${path}.${extension}`} alt={`Image ${name}`} />
+						<Image
+							width={42}
+							height={42}
+							layout='fixed'
+							src={`${path}.${extension}`}
+							alt={`Image ${name}`}
+							objectFit='cover'
+						/>
 						<p className='Comic-text character'>{name}</p>
 					</div>
 				</Link>
@@ -112,6 +119,7 @@ Comic.getLayout = (page) => <Layout>{page}</Layout>;
 export async function getServerSideProps({ query: { id } }) {
 	const { data } = await axiosClient(`/comics/${id}`);
 	const response = data.data.results;
+
 	const { data: characters } = await axiosClient(`/comics/${id}/characters`);
 	const responseCharacters = characters.data.results;
 	return {

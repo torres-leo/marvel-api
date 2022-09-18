@@ -149,10 +149,10 @@ const Characters = ({ characters }) => {
 					<span>Characters</span>
 				</h2>
 				<div className='Characters-search'>
-					<label htmlFor='filter' className='Characters-label'>
-						Filter Characters:
-					</label>
 					<form className='Characters-form'>
+						<label htmlFor='filter' className='Characters-label'>
+							Filter Characters:
+						</label>
 						<Input
 							type='text'
 							className={`Characters-input ${active === 'Name' ? 'activeInput' : ''}`}
@@ -170,12 +170,14 @@ const Characters = ({ characters }) => {
 							className={`select ${active === 'Comics' ? 'activeInput' : ''}`}
 						/>
 					</form>
-					<Button className={`Button ${active === 'Name' ? 'active' : ''}`} onClick={handleClick('Name')}>
-						Name
-					</Button>
-					<Button className={`Button ${active === 'Comics' ? 'active' : ''}`} onClick={handleClick('Comics')}>
-						Comics
-					</Button>
+					<div className='container-filters'>
+						<Button className={`Button ${active === 'Name' ? 'active' : ''}`} onClick={handleClick('Name')}>
+							Name
+						</Button>
+						<Button className={`Button ${active === 'Comics' ? 'active' : ''}`} onClick={handleClick('Comics')}>
+							Comics
+						</Button>
+					</div>
 				</div>
 				<>
 					{!searchedCharacter.length ? (

@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Icon from '/components/Icon';
 
 const CharacterCard = ({ character }) => {
 	const {
@@ -18,8 +19,12 @@ const CharacterCard = ({ character }) => {
 				<h3 className='Card-name'>
 					<span>{name}</span>
 				</h3>
+
 				<Link href={`/characters/${id}`}>
-					<a className='Card-redirect'>View Character</a>
+					<a className='Card-redirect'>
+						View Character
+						<Icon className='fa-solid fa-eye icon-eye' />
+					</a>
 				</Link>
 			</div>
 		</article>

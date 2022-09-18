@@ -11,6 +11,10 @@
 	transition: all 0.3s ease-in-out;
 	width: 90px;
 
+	@media (max-width: $sm) {
+		padding: 6px;
+	}
+
 	&:hover {
 		// background-color: $red;
 		cursor: pointer;

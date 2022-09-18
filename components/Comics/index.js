@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Icon from '/components/Icon';
 
 const ComicsCard = ({ comic }) => {
 	const {
@@ -20,7 +21,10 @@ const ComicsCard = ({ comic }) => {
 				</h3>
 				<div className='Card-link'>
 					<Link href={`/comics/${id}`}>
-						<a className='Card-redirect comic'>View Comic</a>
+						<a className='Card-redirect comic'>
+							View Comic
+							<Icon className='fa-solid fa-eye icon-eye' />
+						</a>
 					</Link>
 				</div>
 			</div>
