@@ -29,14 +29,6 @@ const Character = ({ response, responseComics }) => {
 			return (
 				<Link href={`/comics/${id}`} key={comic.id}>
 					<div className='containerComics'>
-						{/* <Image
-							width={45}
-							height={45}
-							layout='fixed'
-							src={`${path}.${extension}`}
-							alt={`Image ${name}`}
-							objectFit='cover'
-						/> */}
 						<p className='Character-text'>{title}</p>
 					</div>
 				</Link>

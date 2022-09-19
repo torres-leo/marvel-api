@@ -25,9 +25,13 @@
 		text-transform: uppercase;
 		width: 100%;
 
-		@media (max-width: $md) {
+		@include media-breakpoint-down(lg) {
 			margin-bottom: 20px;
 		}
+
+		// @media (max-width: $md) {
+		// 	margin-bottom: 20px;
+		// }
 
 		@media (max-width: $sm) {
 			font-size: 26px;
