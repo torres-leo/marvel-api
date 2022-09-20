@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { v4 as uuidv4 } from 'uuid';
 import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
 import ComicsCard from '../../components/Comics';
@@ -102,7 +103,7 @@ const Comics = ({ comics }) => {
 				</div>
 			);
 
-		return searchedComic.map((comic) => <ComicsCard key={comic.id} comic={comic} />);
+		return searchedComic.map((comic) => <ComicsCard key={uuidv4()} comic={comic} />);
 	};
 
 	const renderComics = () => {
@@ -113,7 +114,7 @@ const Comics = ({ comics }) => {
 					<Icon className='fa-solid fa-circle-exclamation icon' />
 				</div>
 			);
-		return listComics.map((comic) => <ComicsCard key={comic.id} comic={comic} />);
+		return listComics.map((comic) => <ComicsCard key={uuidv4()} comic={comic} />);
 	};
 
 	return (
@@ -145,22 +146,19 @@ const Comics = ({ comics }) => {
 					<Button
 						id='title'
 						className={`Button ${active === 'Title' ? 'active' : ''}`}
-						onClick={() => handleClick('Title')}
-					>
+						onClick={() => handleClick('Title')}>
 						Title
 					</Button>
 					<Button
 						id='format'
 						className={`Button ${active === 'Format' ? 'active' : ''}`}
-						onClick={() => handleClick('Format')}
-					>
+						onClick={() => handleClick('Format')}>
 						Format
 					</Button>
 					<Button
 						id='issue'
 						className={`Button ${active === 'Issue' ? 'active' : ''}`}
-						onClick={() => handleClick('Issue')}
-					>
+						onClick={() => handleClick('Issue')}>
 						Issue
 					</Button>
 				</div>

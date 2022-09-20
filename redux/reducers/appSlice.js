@@ -1,38 +1,47 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosAPI from '../../config/axiosAPI';
 
-// const userToken = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : null;
+export const login = createAsyncThunk('app/login', async (data) => {
+	// try {
+	const response = await axiosAPI.post('/auth/login', data);
+
+	if (response.length) {
+		response.data;
+		return;
+	}
+	const error = 'Invalid Credentials';
+	return error;
+	// } catch (error) {
+	// 	return error;
+	// }
+});
 
 const initialState = {
-	userInfo: {},
+	loading: false,
 	userToken: null,
-	success: false,
+	isLogged: false,
+	error: '',
 };
 
 export const appSlice = createSlice({
-	name: 'App',
+	name: 'app',
 	initialState,
-	reducers: {
-		login: (state, action) => {
-			const loginUser = async ({ username, password }) => {
-				try {
-					if ([username, password].includes('')) return;
-					const config = {
-						headers: {
-							'Content-type': 'application/json',
-						},
-					};
-					const { data } = await axiosAPI.post('/auth/login', { username, password }, config);
-					console.log(data);
-					localStorage.setItem('userToken', data.access_token);
-				} catch (error) {
-					console.log(error);
-				}
-			};
-			loginUser(action.payload);
+	reducers: {},
+	extraReducers: {
+		[login.pending]: (state) => {
+			state.loading = true;
+			state.error = '';
+		},
+		[login.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.userToken = action.payload?.access_token;
+			state.isLogged = true;
+		},
+		[login.rejected]: (state) => {
+			state.loading = false;
+			state.error = 'Invalid credentials';
 		},
 	},
 });
 
-export const { login } = appSlice.actions;
 export default appSlice.reducer;

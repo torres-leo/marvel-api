@@ -9,12 +9,12 @@ const Login = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
+	const errorCredentials = useSelector((state) => state.app.error);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if ([username, password].includes('')) {
-			setError('All Fields are required');
-
+			setError('All fields are required');
 			setTimeout(() => {
 				setError('');
 			}, 3500);
@@ -22,7 +22,10 @@ const Login = () => {
 		}
 
 		dispatch(login({ username, password }));
-		console.log('Click');
+	};
+
+	const renderErrorCredentials = () => {
+		if (errorCredentials) return <p>{errorCredentials}</p>;
 	};
 
 	const handleUsername = (e) => {
@@ -68,6 +71,7 @@ const Login = () => {
 						/>
 					</div>
 					{error && <p>{error}</p>}
+					{renderErrorCredentials()}
 					<Input type='submit' value='Log in' className='Login-submit' />
 				</form>
 			</div>
