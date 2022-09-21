@@ -21,9 +21,6 @@ const Characters = ({ characters }) => {
 	const [selectedValue, setSelectedValue] = useState(null);
 	const [active, setActive] = useState('Name');
 	const [error, setError] = useState('');
-	const isLogged = useSelector((state) => state.app.isLogged);
-
-	console.log(isLogged);
 
 	useEffect(() => {
 		const loadCharactersComic = async () => {
