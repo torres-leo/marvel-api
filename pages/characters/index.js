@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSelector, useDispatch } from 'react-redux';
 import AsyncSelect from 'react-select/async';
 import Input from '/components/Input';
 import CharacterCard from '../../components/Character';
@@ -20,6 +21,9 @@ const Characters = ({ characters }) => {
 	const [selectedValue, setSelectedValue] = useState(null);
 	const [active, setActive] = useState('Name');
 	const [error, setError] = useState('');
+	const isLogged = useSelector((state) => state.app.isLogged);
+
+	console.log(isLogged);
 
 	useEffect(() => {
 		const loadCharactersComic = async () => {

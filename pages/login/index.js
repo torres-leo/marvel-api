@@ -1,27 +1,43 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import Input from '/components/Input';
 import { login } from '../../redux/reducers/appSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 const Login = () => {
+	const router = useRouter();
 	const dispatch = useDispatch();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
 	const errorCredentials = useSelector((state) => state.app.error);
+	const isLogged = useSelector((state) => state.app.isLogged);
+
+	// useEffect(() => {
+	// 	if (isLogged === true) {
+	// 		router.push('/');
+	// 	} else {
+	// 		router.push('/login');
+	// 	}
+	// }, [isLogged]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if ([username, password].includes('')) {
-			setError('All fields are required');
-			setTimeout(() => {
-				setError('');
-			}, 3500);
-			return;
+		try {
+			if ([username, password].includes('')) {
+				setError('All fields are required');
+				setTimeout(() => {
+					setError('');
+				}, 3500);
+				return;
+			}
+			dispatch(login({ username, password }));
+		} catch (error) {
+			// setError(error);
+			console.log(error);
 		}
-
-		dispatch(login({ username, password }));
 	};
 
 	const renderErrorCredentials = () => {
