@@ -8,10 +8,12 @@ import axiosClient from '../../config/axios';
 import { useDebounce } from '../../hooks/useDebounce';
 import Button from '/components/Button';
 import Icon from '../../components/Icon';
+import axiosAPI from '../../config/axiosAPI';
 
 const Characters = ({ characters }) => {
 	const [listCharacters, setListCharacters] = useState(characters);
 	const [searchedCharacter, setSearchedCharacter] = useState([]);
+	const [favoritesList, setFavoritesList] = useState([]);
 	const [hasMore, setHasMore] = useState(true);
 	const [pageLimit, setPageLimit] = useState(20);
 	const [pages, setPages] = useState(0);
@@ -21,6 +23,30 @@ const Characters = ({ characters }) => {
 	const [selectedValue, setSelectedValue] = useState(null);
 	const [active, setActive] = useState('Name');
 	const [error, setError] = useState('');
+
+	const isLogged = useSelector((state) => state.user.isLogged);
+	const userToken = useSelector((state) => state.user.userToken);
+
+	useEffect(() => {
+		if (isLogged) {
+			const getCharactersFavorites = async () => {
+				const config = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${userToken}`,
+					},
+				};
+				const { data } = await axiosAPI('/favorites', {
+					params: { category: 'CHARACTER' },
+					...config,
+				});
+				console.log(data);
+				setFavoritesList((prevState) => [...prevState, ...data]);
+			};
+			getCharactersFavorites();
+		}
+		//eslint-disable-next-line
+	}, []);
 
 	useEffect(() => {
 		const loadCharactersComic = async () => {
@@ -128,7 +154,9 @@ const Characters = ({ characters }) => {
 				</div>
 			);
 
-		return searchedCharacter.map((character) => <CharacterCard key={character.id} character={character} />);
+		return searchedCharacter.map((character) => (
+			<CharacterCard key={character.id} character={character} favoritesList={favoritesList} />
+		));
 	};
 
 	const renderCharacters = () => {
@@ -140,7 +168,9 @@ const Characters = ({ characters }) => {
 				</div>
 			);
 
-		return listCharacters.map((character) => <CharacterCard key={character.id} character={character} />);
+		return listCharacters.map((character) => (
+			<CharacterCard key={character.id} character={character} favoritesList={favoritesList} />
+		));
 	};
 
 	return (
