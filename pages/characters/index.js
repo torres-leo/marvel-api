@@ -138,7 +138,6 @@ const Characters = ({ characters }) => {
 				key={character.id}
 				character={character}
 				favoritesList={favoritesList}
-				setFavoritesList={setFavoritesList}
 				getCharactersFavorites={getCharactersFavorites}
 			/>
 		));
@@ -158,7 +157,6 @@ const Characters = ({ characters }) => {
 				key={character.id}
 				character={character}
 				favoritesList={favoritesList}
-				setFavoritesList={setFavoritesList}
 				getCharactersFavorites={getCharactersFavorites}
 			/>
 		));
@@ -183,6 +181,7 @@ const Characters = ({ characters }) => {
 		if (isLogged) {
 			getCharactersFavorites();
 		}
+		//eslint-disable-next-line
 	}, []);
 
 	return (
@@ -214,10 +213,10 @@ const Characters = ({ characters }) => {
 						/>
 					</form>
 					<div className='container-filters'>
-						<Button className={`Button ${active === 'Name' ? 'active' : ''}`} onClick={handleClick('Name')}>
+						<Button className={`Button ${active === 'Name' && 'active'}`} onClick={handleClick('Name')}>
 							Name
 						</Button>
-						<Button className={`Button ${active === 'Comics' ? 'active' : ''}`} onClick={handleClick('Comics')}>
+						<Button className={`Button ${active === 'Comics' && 'active'}`} onClick={handleClick('Comics')}>
 							Comics
 						</Button>
 					</div>

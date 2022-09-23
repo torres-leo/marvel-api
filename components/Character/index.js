@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import axiosAPI from '../../config/axiosAPI';
 import Icon from '/components/Icon';
 
-const CharacterCard = ({ character, favoritesList, setFavoriteList, getCharactersFavorites }) => {
+const CharacterCard = ({ character, favoritesList, getCharactersFavorites }) => {
 	const isLogged = useSelector((state) => state.user.isLogged);
 	const userToken = useSelector((state) => state.user.userToken);
 
@@ -20,8 +20,7 @@ const CharacterCard = ({ character, favoritesList, setFavoriteList, getCharacter
 
 		const idExist = favoritesList.some((favorite) => favorite.marvelId === character.id);
 
-		if (idExist && isLogged)
-			return <Icon className='fa-solid fa-heart icon-heart' onClick={() => deleteFavorite(character.id)} />;
+		if (idExist && isLogged) return <Icon className='fa-solid fa-heart icon-heart' onClick={onDelete} />;
 
 		return <Icon className='fa-regular fa-heart icon-heart' onClick={addFavorite} />;
 	};
@@ -33,27 +32,27 @@ const CharacterCard = ({ character, favoritesList, setFavoriteList, getCharacter
 				Authorization: `Bearer ${userToken}`,
 			},
 		};
-		const { data } = await axiosAPI.post('/favorites', { category: 'CHARACTER', marvelId: id }, config);
+		await axiosAPI.post('/favorites', { category: 'CHARACTER', marvelId: id }, config);
 		getCharactersFavorites();
-		return data;
 	};
 
 	const deleteFavorite = async (characterId) => {
+		const indexCharacter = favoritesList.findIndex((element) => element.marvelId === characterId);
+		const { id, marvelId } = favoritesList[indexCharacter];
+
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${userToken}`,
 			},
 		};
-		const { data } = await axiosAPI.delete(`/favorites/${characterId}`, {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${userToken}`,
-			},
-		});
-		console.log(data);
 
-		// getCharactersFavorites();
+		await axiosAPI.delete(`/favorites/${id}`, config);
+		getCharactersFavorites();
+	};
+
+	const onDelete = () => {
+		deleteFavorite(character.id);
 	};
 
 	return (

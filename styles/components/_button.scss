@@ -5,11 +5,11 @@
 	color: $white;
 	font-family: $font-secondary;
 	font-size: 18px;
+	min-width: 100px;
 	padding: 10px;
 	outline: none;
 	text-align: center;
 	transition: all 0.3s ease-in-out;
-	width: 90px;
 
 	@media (max-width: $sm) {
 		padding: 6px;

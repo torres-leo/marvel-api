@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
 import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
 import ComicsCard from '../../components/Comics';
@@ -8,10 +9,12 @@ import Input from '/components/Input';
 import { useDebounce } from '../../hooks/useDebounce';
 import Button from '/components/Button';
 import Icon from '/components/Icon';
+import axiosAPI from '../../config/axiosAPI';
 
 const Comics = ({ comics }) => {
 	const [listComics, setListComics] = useState(comics);
 	const [searchedComic, setSearchedComic] = useState([]);
+	const [favoritesList, setFavoritesList] = useState([]);
 	const [hasMore, setHasMore] = useState(true);
 	const [pageLimit, setPageLimit] = useState(20);
 	const [pages, setPages] = useState(0);
@@ -19,6 +22,9 @@ const Comics = ({ comics }) => {
 	const [inputValue, setInputValue] = useState('');
 	const [active, setActive] = useState('Title');
 	const [error, setError] = useState('');
+
+	const isLogged = useSelector((state) => state.user.isLogged);
+	const userToken = useSelector((state) => state.user.userToken);
 
 	useEffect(() => {
 		if (active === 'Issue') {
@@ -103,7 +109,9 @@ const Comics = ({ comics }) => {
 				</div>
 			);
 
-		return searchedComic.map((comic) => <ComicsCard key={uuidv4()} comic={comic} />);
+		return searchedComic.map((comic) => (
+			<ComicsCard key={uuidv4()} comic={comic} getComicsFavorites={getComicsFavorites} favoritesList={favoritesList} />
+		));
 	};
 
 	const renderComics = () => {
@@ -114,8 +122,31 @@ const Comics = ({ comics }) => {
 					<Icon className='fa-solid fa-circle-exclamation icon' />
 				</div>
 			);
-		return listComics.map((comic) => <ComicsCard key={uuidv4()} comic={comic} />);
+		return listComics.map((comic) => (
+			<ComicsCard key={uuidv4()} comic={comic} getComicsFavorites={getComicsFavorites} favoritesList={favoritesList} />
+		));
 	};
+
+	const getComicsFavorites = async () => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${userToken}`,
+			},
+		};
+		const { data } = await axiosAPI('/favorites', {
+			params: { category: 'COMIC' },
+			...config,
+		});
+		console.log(data);
+		setFavoritesList(data);
+	};
+
+	useEffect(() => {
+		if (isLogged) {
+			getComicsFavorites();
+		}
+	}, []);
 
 	return (
 		<div className='Comics'>
