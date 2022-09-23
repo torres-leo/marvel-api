@@ -28,27 +28,6 @@ const Characters = ({ characters }) => {
 	const userToken = useSelector((state) => state.user.userToken);
 
 	useEffect(() => {
-		if (isLogged) {
-			const getCharactersFavorites = async () => {
-				const config = {
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${userToken}`,
-					},
-				};
-				const { data } = await axiosAPI('/favorites', {
-					params: { category: 'CHARACTER' },
-					...config,
-				});
-				console.log(data);
-				setFavoritesList((prevState) => [...prevState, ...data]);
-			};
-			getCharactersFavorites();
-		}
-		//eslint-disable-next-line
-	}, []);
-
-	useEffect(() => {
 		const loadCharactersComic = async () => {
 			if (active === 'Comics' && selectedValue) {
 				const id = Number(selectedValue?.value);
@@ -155,7 +134,13 @@ const Characters = ({ characters }) => {
 			);
 
 		return searchedCharacter.map((character) => (
-			<CharacterCard key={character.id} character={character} favoritesList={favoritesList} />
+			<CharacterCard
+				key={character.id}
+				character={character}
+				favoritesList={favoritesList}
+				setFavoritesList={setFavoritesList}
+				getCharactersFavorites={getCharactersFavorites}
+			/>
 		));
 	};
 
@@ -169,9 +154,36 @@ const Characters = ({ characters }) => {
 			);
 
 		return listCharacters.map((character) => (
-			<CharacterCard key={character.id} character={character} favoritesList={favoritesList} />
+			<CharacterCard
+				key={character.id}
+				character={character}
+				favoritesList={favoritesList}
+				setFavoritesList={setFavoritesList}
+				getCharactersFavorites={getCharactersFavorites}
+			/>
 		));
 	};
+
+	const getCharactersFavorites = async () => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${userToken}`,
+			},
+		};
+		const { data } = await axiosAPI('/favorites', {
+			params: { category: 'CHARACTER' },
+			...config,
+		});
+		console.log(data);
+		setFavoritesList(data);
+	};
+
+	useEffect(() => {
+		if (isLogged) {
+			getCharactersFavorites();
+		}
+	}, []);
 
 	return (
 		<div className='Characters'>

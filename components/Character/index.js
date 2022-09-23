@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSelector, useDispatch } from 'react-redux';
-import { addFavorites, getFavorites } from '../../redux/reducers/favoritesSlice';
+import { useSelector } from 'react-redux';
 import axiosAPI from '../../config/axiosAPI';
-
 import Icon from '/components/Icon';
 
-const CharacterCard = ({ character, favoritesList }) => {
-	const dispatch = useDispatch();
+const CharacterCard = ({ character, favoritesList, setFavoriteList, getCharactersFavorites }) => {
 	const isLogged = useSelector((state) => state.user.isLogged);
 	const userToken = useSelector((state) => state.user.userToken);
 
@@ -17,9 +14,10 @@ const CharacterCard = ({ character, favoritesList }) => {
 		name,
 		thumbnail: { path, extension },
 	} = character;
-	console.log(id);
 
 	const renderCharactersFavs = () => {
+		if (!isLogged) return;
+
 		const idExist = favoritesList.some((favorite) => favorite.marvelId === character.id);
 
 		if (idExist && isLogged)
@@ -27,7 +25,6 @@ const CharacterCard = ({ character, favoritesList }) => {
 
 		return <Icon className='fa-regular fa-heart icon-heart' onClick={addFavorite} />;
 	};
-	renderCharactersFavs();
 
 	const addFavorite = async () => {
 		const config = {
@@ -37,29 +34,32 @@ const CharacterCard = ({ character, favoritesList }) => {
 			},
 		};
 		const { data } = await axiosAPI.post('/favorites', { category: 'CHARACTER', marvelId: id }, config);
+		getCharactersFavorites();
 		return data;
 	};
 
-	const deleteFavorite = async (id) => {
+	const deleteFavorite = async (characterId) => {
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${userToken}`,
 			},
 		};
-		const { data } = await axiosAPI.delete(`/favorites/${id}`, config);
-		return data;
-	};
+		const { data } = await axiosAPI.delete(`/favorites/${characterId}`, {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${userToken}`,
+			},
+		});
+		console.log(data);
 
-	// const renderIconFavorites = () => {
-	// 	if (isLogged) return <Icon className='fa-regular fa-heart icon-heart' onClick={addFavorite} />;
-	// };
+		// getCharactersFavorites();
+	};
 
 	return (
 		<article className='Card'>
 			<div className='Card-image'>
 				<Image layout='fill' src={`${path}.${extension}`} alt={`Image ${name} `} quality={100} priority />
-				{/* {renderIconFavorites()} */}
 				{renderCharactersFavs()}
 			</div>
 			<div className='Card-info'>
