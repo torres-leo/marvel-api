@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import Icon from '/components/Icon';
 const CharacterCard = ({ character, favoritesList, getCharactersFavorites }) => {
 	const isLogged = useSelector((state) => state.user.isLogged);
 	const userToken = useSelector((state) => state.user.userToken);
+	const [] = useState([character.thumbnail]);
 
 	const {
 		id,
@@ -38,7 +39,7 @@ const CharacterCard = ({ character, favoritesList, getCharactersFavorites }) => 
 
 	const deleteFavorite = async (characterId) => {
 		const indexCharacter = favoritesList.findIndex((element) => element.marvelId === characterId);
-		const { id, marvelId } = favoritesList[indexCharacter];
+		const { id } = favoritesList[indexCharacter];
 
 		const config = {
 			headers: {

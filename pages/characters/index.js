@@ -173,7 +173,6 @@ const Characters = ({ characters }) => {
 			params: { category: 'CHARACTER' },
 			...config,
 		});
-		console.log(data);
 		setFavoritesList(data);
 	};
 
