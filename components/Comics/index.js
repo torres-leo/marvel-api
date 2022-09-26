@@ -37,7 +37,7 @@ const ComicsCard = ({ comic, favoritesList, getComicsFavorites }) => {
 
 	const deleteFavorite = async (comicId) => {
 		const indexCharacter = favoritesList.findIndex((element) => element.marvelId === comicId);
-		const { id, marvelId } = favoritesList[indexCharacter];
+		const { id } = favoritesList[indexCharacter];
 
 		const config = {
 			headers: {

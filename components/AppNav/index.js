@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../redux/reducers/userSlice';
 import Input from '../Input';
+import Button from '../Button';
 
 const AppNav = () => {
 	const isLogged = useSelector((state) => state.user.isLogged);
@@ -12,7 +13,9 @@ const AppNav = () => {
 		if (isLogged)
 			return (
 				<Link href='/login'>
-					<Input type='submit' onClick={handleLogOut} value='Log out' className='Nav-login' />
+					<Button type='submit' onClick={handleLogOut} className='Nav-login'>
+						Log out
+					</Button>
 				</Link>
 			);
 

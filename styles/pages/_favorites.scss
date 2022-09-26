@@ -3,7 +3,7 @@
 
 	&-container {
 		margin: 0 auto;
-		max-width: 1250px;
+		max-width: 1350px;
 		width: 100%;
 	}
 
@@ -31,7 +31,17 @@
 	&-filters {
 		display: flex;
 		align-items: center;
-		justify-content: center;
 		gap: 40px;
+		justify-content: center;
+		margin-bottom: 50px;
+	}
+
+	&-cards {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 45px;
+		justify-content: flex-start;
+		margin: 0 auto;
 	}
 }

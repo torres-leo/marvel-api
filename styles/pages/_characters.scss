@@ -8,7 +8,7 @@
 
 	&-container {
 		margin: 0 auto;
-		max-width: 1250px;
+		max-width: 1350px;
 		width: 100%;
 	}
 
@@ -72,8 +72,9 @@
 			flex-direction: column;
 		}
 
-		@media (max-width: $sm) {
+		@media (max-width: $md) {
 			padding: 0 10px;
+			margin-bottom: 10px;
 		}
 	}
 
@@ -105,7 +106,7 @@
 		width: 100%;
 
 		@media (max-width: $sm) {
-			padding: 6px;
+			padding: 10px;
 		}
 	}
 
@@ -131,6 +132,11 @@
 	.NotFound {
 		display: flex;
 		align-items: center;
+		max-width: 425px;
+
+		@media (max-width: $sm) {
+			max-width: 325px;
+		}
 	}
 
 	.icon {
@@ -148,9 +154,13 @@
 		text-align: center;
 	}
 
-	.container-filters {
+	&-filters {
 		display: flex;
 		align-items: center;
 		gap: 10px;
+
+		@media (max-width: $md) {
+			gap: 20px;
+		}
 	}
 }

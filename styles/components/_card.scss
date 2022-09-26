@@ -1,11 +1,11 @@
 .Card {
 	border: 2px solid $white;
 	border-radius: 10px;
-	min-height: 410px;
+	min-height: 430px;
 	padding: 10px;
 	position: relative;
 	transition: all 0.1s ease-in;
-	width: 380px;
+	width: 420px;
 
 	@media (max-width: 768px) {
 		width: 330px;
@@ -40,7 +40,7 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		gap: 30px;
+		gap: 48px;
 		justify-content: space-between;
 
 		&.comic {
@@ -110,6 +110,6 @@
 
 	&.comic {
 		height: 460px;
-		width: 440px;
+		// width: 420px;
 	}
 }

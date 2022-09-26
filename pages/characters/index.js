@@ -211,7 +211,7 @@ const Characters = ({ characters }) => {
 							className={`select ${active === 'Comics' ? 'activeInput' : ''}`}
 						/>
 					</form>
-					<div className='container-filters'>
+					<div className='Characters-filters'>
 						<Button className={`Button ${active === 'Name' && 'active'}`} onClick={handleClick('Name')}>
 							Name
 						</Button>

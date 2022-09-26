@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
@@ -138,7 +139,6 @@ const Comics = ({ comics }) => {
 			params: { category: 'COMIC' },
 			...config,
 		});
-		console.log(data);
 		setFavoritesList(data);
 	};
 
