@@ -1,5 +1,4 @@
 .Comic {
-	// border: 1px solid white;
 	margin: 0 auto;
 	margin-bottom: 40px;
 	margin-top: 40px;
@@ -19,14 +18,22 @@
 		padding: 10px 15px;
 		text-align: center;
 
-		@media (max-width: $xl) {
-			font-size: 18px;
+		@include media-breakpoint-down(xl) {
+			font-size: 22px;
 			padding: 5px 10px;
 		}
 
-		@media (max-width: $sm) {
-			font-size: 12px;
-			padding: 5px 0px;
+		@include media-breakpoint-down(md) {
+			font-size: 19px;
+			padding: 0;
+		}
+
+		@include media-breakpoint-down(sm) {
+			font-size: 16px;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 0 5px;
+			max-width: 400px;
 		}
 	}
 
@@ -35,12 +42,15 @@
 		margin-bottom: 35px;
 		align-items: center;
 
-		@media (max-width: $xl) {
+		@include media-breakpoint-down(xl) {
 			padding: 0 20px;
 		}
 
-		@media (max-width: $sm) {
+		@include media-breakpoint-down(lg) {
 			gap: 15px;
+		}
+
+		@include media-breakpoint-down(sm) {
 			margin-bottom: 20px;
 			padding: 0 10px;
 		}
@@ -63,7 +73,7 @@
 		min-height: 450px;
 		flex: 1;
 
-		@media (max-width: $xl) {
+		@include media-breakpoint-down(xl) {
 			flex-wrap: wrap;
 		}
 	}
@@ -71,17 +81,25 @@
 	&-image {
 		border: 1px solid $white;
 		position: relative;
-		// width: 450px;
 		width: 100%;
 
-		@media (max-width: $xl) {
-			width: 370px;
-			height: 600px;
+		@include media-breakpoint-down(xl) {
+			height: 500px;
+			width: 470px;
+		}
+
+		@include media-breakpoint-down(lg) {
+			width: 380px;
+		}
+
+		@include media-breakpoint-down(md) {
+			height: 450px;
+			width: 300px;
 		}
 
 		@media (max-width: $sm) {
-			width: 370px;
 			height: 390px;
+			width: 370px;
 		}
 	}
 
@@ -91,8 +109,16 @@
 		// width: 260px;
 		width: 100%;
 
-		@media (max-width: $xl) {
-			width: 340px;
+		@include media-breakpoint-down(xl) {
+			width: 470px;
+		}
+
+		@include media-breakpoint-down(lg) {
+			width: 380px;
+		}
+
+		@include media-breakpoint-down(md) {
+			width: 300px;
 		}
 
 		@media (max-width: $sm) {
@@ -106,8 +132,19 @@
 		// width: 450px;
 		width: 100%;
 
-		@media (max-width: $xl) {
-			width: 370px;
+		@include media-breakpoint-down(xl) {
+			width: 470px;
+		}
+
+		@include media-breakpoint-down(lg) {
+			width: 380px;
+		}
+		@include media-breakpoint-down(md) {
+			width: 300px;
+		}
+
+		@include media-breakpoint-down(sm) {
+			width: 330px;
 		}
 	}
 
@@ -116,11 +153,19 @@
 		padding-bottom: 10px;
 		width: 100%;
 
-		@media (max-width: $xl) {
-			width: 340px;
+		@include media-breakpoint-down(xl) {
+			width: 470px;
 		}
 
-		@media (max-width: $sm) {
+		@include media-breakpoint-down(lg) {
+			width: 380px;
+		}
+
+		@include media-breakpoint-down(md) {
+			width: 300px;
+		}
+
+		@include media-breakpoint-down(sm) {
 			width: 370px;
 		}
 	}
@@ -147,7 +192,7 @@
 		margin-bottom: 10px;
 		text-align: left;
 
-		@media (max-width: $xl) {
+		@include media-breakpoint-down(xl) {
 			font-size: 13px;
 		}
 	}

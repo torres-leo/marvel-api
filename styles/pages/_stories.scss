@@ -1,0 +1,42 @@
+.Stories {
+	padding: 40px 0;
+
+	@include media-breakpoint-down(xl) {
+		padding-top: 20px;
+	}
+
+	&-container {
+		margin: 0 auto;
+		max-width: 1400px;
+		width: 100%;
+	}
+
+	&-title {
+		color: $white;
+		filter: drop-shadow(3px 2px 13px $white);
+		font-family: $font-primary;
+		font-size: 32px;
+		font-weight: 500;
+		letter-spacing: 0.2em;
+		margin-bottom: 40px;
+		text-align: center;
+		text-transform: uppercase;
+
+		@include media-breakpoint-down(lg) {
+			margin-bottom: 20px;
+		}
+
+		@include media-breakpoint-down(sm) {
+			font-size: 26px;
+		}
+	}
+
+	&-list {
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		gap: 30px;
+		flex-wrap: wrap;
+		width: 100%;
+	}
+}

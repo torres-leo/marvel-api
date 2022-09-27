@@ -6,4 +6,12 @@
 		color: $white-opacity;
 		cursor: pointer;
 	}
+
+	@include media-breakpoint-down(lg) {
+		font-size: 30px;
+	}
+
+	@include media-breakpoint-down(sm) {
+		font-size: 25px;
+	}
 }

@@ -7,6 +7,10 @@
 	transition: all 0.1s ease-in;
 	width: 420px;
 
+	@include media-breakpoint-down(lg) {
+		width: 370px;
+	}
+
 	@media (max-width: 768px) {
 		width: 330px;
 	}
@@ -72,6 +76,12 @@
 	&-link {
 		position: relative;
 		width: 100%;
+
+		&.story {
+			position: absolute;
+			bottom: 10px;
+			width: 396px;
+		}
 	}
 
 	&-redirect {
@@ -110,6 +120,9 @@
 
 	&.comic {
 		height: 460px;
-		// width: 420px;
+	}
+
+	&.story {
+		height: 480px;
 	}
 }

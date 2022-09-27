@@ -43,6 +43,10 @@
 		gap: 45px;
 		justify-content: flex-start;
 		margin: 0 auto;
+
+		@include media-breakpoint-down(xl) {
+			justify-content: center;
+		}
 	}
 
 	&-notFound {
@@ -58,6 +62,7 @@
 		font-family: $font-secondary;
 		font-size: 20px;
 		font-weight: 500;
+		margin-bottom: 0;
 	}
 
 	.icon {

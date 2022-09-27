@@ -1,7 +1,7 @@
 .Comics {
 	padding: 40px 0;
 
-	@media (max-width: $xl) {
+	@include media-breakpoint-down(xl) {
 		padding-top: 20px;
 	}
 
@@ -26,11 +26,11 @@
 		text-align: center;
 		text-transform: uppercase;
 
-		@media (max-width: $md) {
+		@include media-breakpoint-down(lg) {
 			margin-bottom: 20px;
 		}
 
-		@media (max-width: $sm) {
+		@include media-breakpoint-down(sm) {
 			font-size: 26px;
 		}
 	}
@@ -51,13 +51,13 @@
 		gap: 10px;
 		margin-bottom: 30px;
 
-		@media (max-width: 768px) {
+		@include media-breakpoint-down(xl) {
 			flex-direction: column;
 			gap: 10px;
 		}
 
-		@media (max-width: $sm) {
-			margin-bottom: 20px;
+		@include media-breakpoint-down(sm) {
+			margin-bottom: 30px;
 		}
 	}
 
@@ -80,13 +80,16 @@
 		text-align: center;
 		width: 590px;
 
-		@media (max-width: $md) {
+		@include media-breakpoint-down(lg) {
+			margin-bottom: 10px;
+		}
+
+		@include media-breakpoint-down(sm) {
+			width: 365px;
 			margin-bottom: 10px;
 		}
 
 		@media (max-width: $sm) {
-			width: 365px;
-			margin-bottom: 10px;
 		}
 	}
 
@@ -107,8 +110,9 @@
 		color: $white;
 		font-family: $font-secondary;
 		font-size: 20px;
-		padding: 0 10px;
 		margin-top: 0;
+		margin-bottom: 0;
+		padding: 0 10px;
 		text-align: center;
 	}
 
@@ -117,11 +121,11 @@
 		align-items: center;
 		gap: 10px;
 
-		@media (max-width: $md) {
+		@include media-breakpoint-down(md) {
 			gap: 20px;
 		}
 
-		@media (max-width: $sm) {
+		@include media-breakpoint-down(md) {
 			gap: 10px;
 		}
 	}

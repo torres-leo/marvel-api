@@ -165,7 +165,7 @@ const Comics = ({ comics }) => {
 							className='Comics-input'
 							placeholder={`${
 								active === 'Format'
-									? 'Try with: Comic, Magazine, Graphic Novel, Digital Comic, hardcover, etc..'
+									? 'Try with: Comic, Magazine, Graphic Novel, Digital Comic, hardcover, Digest, etc..'
 									: active === 'Issue'
 									? 'Find comics by Issue Number..'
 									: 'Find comics by Title..'
@@ -178,22 +178,19 @@ const Comics = ({ comics }) => {
 						<Button
 							id='title'
 							className={`Button ${active === 'Title' ? 'active' : ''}`}
-							onClick={() => handleClick('Title')}
-						>
+							onClick={() => handleClick('Title')}>
 							Title
 						</Button>
 						<Button
 							id='format'
 							className={`Button ${active === 'Format' ? 'active' : ''}`}
-							onClick={() => handleClick('Format')}
-						>
+							onClick={() => handleClick('Format')}>
 							Format
 						</Button>
 						<Button
 							id='issue'
 							className={`Button ${active === 'Issue' ? 'active' : ''}`}
-							onClick={() => handleClick('Issue')}
-						>
+							onClick={() => handleClick('Issue')}>
 							Issue
 						</Button>
 					</div>
