@@ -50,8 +50,12 @@ const AppNav = () => {
 					<Link href='/comics'>
 						<li className='Nav-link'>Comics</li>
 					</Link>
+
+					<Link href='/stories'>
+						<li className='Nav-link'>Stories</li>
+					</Link>
 				</ul>
-				<div className='Nav-content right'>
+				<div className={`Nav-content ${isLogged ? 'right' : 'center'} `}>
 					{renderButtonFavorites()}
 					{renderButton()}
 				</div>

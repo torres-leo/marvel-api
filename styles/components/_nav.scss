@@ -1,6 +1,6 @@
 .Nav {
 	background-color: $black;
-	padding: 12px 0;
+	padding: 12px 0px;
 	position: sticky;
 	top: 0;
 	width: 100%;
@@ -11,12 +11,19 @@
 		align-items: center;
 		justify-content: center;
 		margin: 0 auto;
+		max-width: 1400px;
 		position: relative;
-		max-width: 1224px;
 		width: 100%;
 
 		&.right {
 			width: 825px;
+		}
+
+		&.center {
+			width: 825px;
+			@media (max-width: $md) {
+				width: 420px;
+			}
 		}
 	}
 
@@ -29,6 +36,11 @@
 		padding: 0;
 		width: 100%;
 
+		@media (max-width: $md) {
+			justify-content: center;
+			gap: 20px;
+		}
+
 		@media (max-width: $sm) {
 			justify-content: flex-start;
 			gap: 10px;
@@ -40,18 +52,17 @@
 		color: $white;
 		font-family: $font-secondary;
 		font-size: 22px;
-		font-weight: 400;
+		font-weight: 500;
 		list-style: none;
 		text-align: center;
 
 		&:hover {
 			cursor: pointer;
 			color: $red;
-			// filter: drop-shadow(1px 1px 10px $white);
 		}
 
 		@media (max-width: $sm) {
-			font-size: 15px;
+			font-size: 13px;
 		}
 	}
 
@@ -59,7 +70,7 @@
 		color: $white;
 		font-family: $font-secondary;
 		font-size: 22px;
-		font-weight: 400;
+		font-weight: 500;
 		position: absolute;
 		right: 140px;
 		text-decoration: none;
@@ -69,9 +80,12 @@
 			color: $red;
 		}
 
+		@media (max-width: $md) {
+			right: 120px;
+		}
 		@media (max-width: $sm) {
-			font-size: 15px;
-			right: 105px;
+			font-size: 13px;
+			right: 90px;
 		}
 	}
 
@@ -103,9 +117,9 @@
 		}
 
 		@media (max-width: $sm) {
-			font-size: 14px;
+			font-size: 12px;
 			padding: 4px 8px;
-			right: 10px;
+			right: 8px;
 		}
 	}
 }

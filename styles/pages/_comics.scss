@@ -1,9 +1,14 @@
 .Comics {
 	padding: 40px 0;
 
+	@media (max-width: $xl) {
+		padding-top: 20px;
+	}
+
 	&-container {
 		margin: 0 auto;
-		width: 1400px;
+		max-width: 1400px;
+		width: 100%;
 	}
 
 	.infinite-scroll-component {
@@ -20,6 +25,14 @@
 		margin-bottom: 40px;
 		text-align: center;
 		text-transform: uppercase;
+
+		@media (max-width: $md) {
+			margin-bottom: 20px;
+		}
+
+		@media (max-width: $sm) {
+			font-size: 26px;
+		}
 	}
 
 	&-list {
@@ -37,6 +50,15 @@
 		justify-content: center;
 		gap: 10px;
 		margin-bottom: 30px;
+
+		@media (max-width: 768px) {
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		@media (max-width: $sm) {
+			margin-bottom: 20px;
+		}
 	}
 
 	&-label {
@@ -57,6 +79,15 @@
 		padding: 10px;
 		text-align: center;
 		width: 590px;
+
+		@media (max-width: $md) {
+			margin-bottom: 10px;
+		}
+
+		@media (max-width: $sm) {
+			width: 365px;
+			margin-bottom: 10px;
+		}
 	}
 
 	.NotFound {
@@ -79,5 +110,19 @@
 		padding: 0 10px;
 		margin-top: 0;
 		text-align: center;
+	}
+
+	&-filters {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+
+		@media (max-width: $md) {
+			gap: 20px;
+		}
+
+		@media (max-width: $sm) {
+			gap: 10px;
+		}
 	}
 }

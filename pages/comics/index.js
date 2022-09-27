@@ -174,24 +174,29 @@ const Comics = ({ comics }) => {
 							value={inputValue}
 						/>
 					</form>
-					<Button
-						id='title'
-						className={`Button ${active === 'Title' ? 'active' : ''}`}
-						onClick={() => handleClick('Title')}>
-						Title
-					</Button>
-					<Button
-						id='format'
-						className={`Button ${active === 'Format' ? 'active' : ''}`}
-						onClick={() => handleClick('Format')}>
-						Format
-					</Button>
-					<Button
-						id='issue'
-						className={`Button ${active === 'Issue' ? 'active' : ''}`}
-						onClick={() => handleClick('Issue')}>
-						Issue
-					</Button>
+					<div className='Comics-filters'>
+						<Button
+							id='title'
+							className={`Button ${active === 'Title' ? 'active' : ''}`}
+							onClick={() => handleClick('Title')}
+						>
+							Title
+						</Button>
+						<Button
+							id='format'
+							className={`Button ${active === 'Format' ? 'active' : ''}`}
+							onClick={() => handleClick('Format')}
+						>
+							Format
+						</Button>
+						<Button
+							id='issue'
+							className={`Button ${active === 'Issue' ? 'active' : ''}`}
+							onClick={() => handleClick('Issue')}
+						>
+							Issue
+						</Button>
+					</div>
 				</div>
 				<>
 					{!searchedComic.length ? (

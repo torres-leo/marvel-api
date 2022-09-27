@@ -4,11 +4,13 @@ import { useSelector } from 'react-redux';
 import axiosClient from '../../config/axios';
 import axiosAPI from '../../config/axiosAPI';
 import CharacterCard from '../../components/Character';
+import Icon from '../Icon';
 
 const Characters = () => {
 	const [favoritesList, setFavoritesList] = useState([]);
 	const [charactersList, setCharactersList] = useState([]);
 
+	const isLogged = useSelector((state) => state.user.isLogged);
 	const userToken = useSelector((state) => state.user.userToken);
 
 	useEffect(() => {
@@ -52,16 +54,32 @@ const Characters = () => {
 	};
 
 	const renderFavorites = () => {
-		if (!charactersList) return;
+		if (!isLogged)
+			return (
+				<div className='Favorites-notFound'>
+					<p className='Favorites-text'>You must be logged if you want to see your favorites Characters</p>
+					<Icon className='fa-solid fa-circle-exclamation icon' />
+				</div>
+			);
 
-		return charactersList.map((character) => (
-			<CharacterCard
-				key={character.id}
-				character={character}
-				favoritesList={favoritesList}
-				getCharactersFavorites={getCharactersFavorites}
-			/>
-		));
+		if (isLogged) {
+			if (!charactersList.length)
+				return (
+					<div className='Favorites-notFound'>
+						<p className='Favorites-text'>You don't have Favorites Characters</p>
+						<Icon className='fa-solid fa-circle-exclamation icon' />
+					</div>
+				);
+
+			return charactersList.map((character) => (
+				<CharacterCard
+					key={character.id}
+					character={character}
+					favoritesList={favoritesList}
+					getCharactersFavorites={getCharactersFavorites}
+				/>
+			));
+		}
 	};
 
 	return <Fragment>{renderFavorites()}</Fragment>;

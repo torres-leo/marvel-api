@@ -5,11 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 import axiosClient from '../../config/axios';
 import axiosAPI from '../../config/axiosAPI';
 import ComicsCard from '../Comics';
+import Icon from '../Icon';
 
 const Comics = () => {
 	const [favoritesList, setFavoritesList] = useState([]);
 	const [comicsList, setComicsList] = useState([]);
 
+	const isLogged = useSelector((state) => state.user.isLogged);
 	const userToken = useSelector((state) => state.user.userToken);
 
 	useEffect(() => {
@@ -53,11 +55,31 @@ const Comics = () => {
 	};
 
 	const renderFavorites = () => {
-		if (!comicsList) return;
+		if (!isLogged)
+			return (
+				<div className='Favorites-notFound'>
+					<p className='Favorites-text'>You must be logged if you want to see your favorites Comics</p>
+					<Icon className='fa-solid fa-circle-exclamation icon' />
+				</div>
+			);
+		if (isLogged) {
+			if (!comicsList.length)
+				return (
+					<div className='Favorites-notFound'>
+						<p className='Favorites-text'>You don't have Favorites Comics</p>
+						<Icon className='fa-solid fa-circle-exclamation icon' />
+					</div>
+				);
 
-		return comicsList.map((comic) => (
-			<ComicsCard key={uuidv4()} comic={comic} favoritesList={favoritesList} getComicsFavorites={getComicsFavorites} />
-		));
+			return comicsList.map((comic) => (
+				<ComicsCard
+					key={uuidv4()}
+					comic={comic}
+					favoritesList={favoritesList}
+					getComicsFavorites={getComicsFavorites}
+				/>
+			));
+		}
 	};
 
 	return <Fragment>{renderFavorites()}</Fragment>;
