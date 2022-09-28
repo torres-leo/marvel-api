@@ -78,9 +78,10 @@
 		width: 100%;
 
 		&.story {
-			position: absolute;
 			bottom: 10px;
-			width: 396px;
+			padding: 0 10px;
+			position: absolute;
+			width: 100%;
 		}
 	}
 

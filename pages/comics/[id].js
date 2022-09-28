@@ -1,17 +1,17 @@
 import React from 'react';
 import Image from 'next/image';
 import ReactHtmlParser from 'react-html-parser';
+import { v4 as uuidv4 } from 'uuid';
 import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
 import Icon from '../../components/Icon';
 import Link from 'next/link';
 
-const Comic = ({ response, responseCharacters }) => {
+const Comic = ({ response, responseCharacters, responseStories }) => {
 	const [comic] = response;
-	const [creators] = [comic.creators.items];
-	const [stories] = [comic.stories.items];
+	const [stories] = [responseStories];
 	const [characters] = [responseCharacters];
-	console.log(comic);
+	const [creators] = [comic.creators.items];
 	const {
 		title,
 		description,
@@ -62,13 +62,18 @@ const Comic = ({ response, responseCharacters }) => {
 	};
 
 	const renderStories = () => {
-		if (!stories) return <p>No stories avaible</p>;
+		if (!stories) return <p className='notAvaible'>No Stories Avaible</p>;
 
-		return stories.map((storie, index) => (
-			<p key={index} className='Comic-text'>
-				{storie.name}
-			</p>
-		));
+		return stories.map((story) => {
+			const { id, title } = story;
+			return (
+				<Link href={`/stories/${id}`} key={uuidv4()}>
+					<div className='containerStories'>
+						<p className='Character-text'>{title}</p>
+					</div>
+				</Link>
+			);
+		});
 	};
 
 	return (
@@ -122,10 +127,15 @@ export async function getServerSideProps({ query: { id } }) {
 
 	const { data: characters } = await axiosClient(`/comics/${id}/characters`);
 	const responseCharacters = characters.data.results;
+
+	const { data: stories } = await axiosClient(`/comics/${id}/stories`);
+	const responseStories = stories.data.results;
+
 	return {
 		props: {
 			response,
 			responseCharacters,
+			responseStories,
 		},
 	};
 }

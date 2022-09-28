@@ -97,7 +97,7 @@
 			width: 300px;
 		}
 
-		@media (max-width: $sm) {
+		@include media-breakpoint-down(sm) {
 			height: 390px;
 			width: 370px;
 		}
@@ -121,7 +121,7 @@
 			width: 300px;
 		}
 
-		@media (max-width: $sm) {
+		@include media-breakpoint-down(sm) {
 			width: 370px;
 		}
 	}
@@ -144,7 +144,7 @@
 		}
 
 		@include media-breakpoint-down(sm) {
-			width: 330px;
+			width: 370px;
 		}
 	}
 
@@ -221,6 +221,22 @@
 	}
 
 	.containerCharacters {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		border-bottom: 1px solid $white;
+
+		&:last-of-type {
+			border: none;
+		}
+
+		&:hover {
+			cursor: pointer;
+			background-color: #f7f7f72c;
+		}
+	}
+
+	.containerStories {
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;

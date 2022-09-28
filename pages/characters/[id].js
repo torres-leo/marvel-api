@@ -2,13 +2,14 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ReactHtmlParser from 'react-html-parser';
+import { v4 as uuidv4 } from 'uuid';
 import axiosClient from '../../config/axios';
 import Layout from '../../components/Layout';
 import Icon from '/components/Icon';
 
-const Character = ({ response, responseComics }) => {
+const Character = ({ response, responseComics, responseStories }) => {
 	const [character] = response;
-	const [series] = [character.series.items];
+	const [stories] = [responseStories];
 	const [comics] = [responseComics];
 
 	const {
@@ -16,16 +17,13 @@ const Character = ({ response, responseComics }) => {
 		description,
 		thumbnail: { path, extension },
 	} = character;
+	console.log(stories);
 
 	const renderComics = () => {
 		if (!comics) return <p className='Character notAvaible'>No comics</p>;
 
 		return comics.map((comic) => {
-			const {
-				id,
-				title,
-				thumbnail: { path, extension },
-			} = comic;
+			const { id, title } = comic;
 			return (
 				<Link href={`/comics/${id}`} key={comic.id}>
 					<div className='containerComics'>
@@ -36,14 +34,19 @@ const Character = ({ response, responseComics }) => {
 		});
 	};
 
-	const renderSeries = () => {
-		if (!series) return <p className='Character notAvaible'>No series</p>;
+	const renderStories = () => {
+		if (!stories) return <p className='notAvaible'>No Stories Avaible</p>;
 
-		return series.map((serie, index) => (
-			<p key={index} className='Character-text'>
-				{serie.name}
-			</p>
-		));
+		return stories.map((story) => {
+			const { id, title } = story;
+			return (
+				<Link href={`/stories/${id}`} key={uuidv4()}>
+					<div className='containerStories'>
+						<p className='Character-text'>{title}</p>
+					</div>
+				</Link>
+			);
+		});
 	};
 
 	const renderDescription = () => {
@@ -83,9 +86,9 @@ const Character = ({ response, responseComics }) => {
 				</div>
 				<div className='Character-series'>
 					<h2 className='Character-title'>
-						<span>Series</span>
+						<span>Stories</span>
 					</h2>
-					{renderSeries()}
+					{renderStories()}
 				</div>
 			</div>
 		</div>
@@ -101,10 +104,14 @@ export async function getServerSideProps({ query: { id } }) {
 	const { data: comics } = await axiosClient(`/characters/${id}/comics`);
 	const responseComics = comics.data.results;
 
+	const { data: stories } = await axiosClient(`/characters/${id}/stories`);
+	const responseStories = stories.data.results;
+
 	return {
 		props: {
 			response,
 			responseComics,
+			responseStories,
 		},
 	};
 }

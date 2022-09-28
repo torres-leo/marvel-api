@@ -1,36 +1,13 @@
-.Character {
+.Story {
 	margin: 0 auto;
 	margin-bottom: 40px;
 	margin-top: 40px;
 	text-align: center;
-	max-width: 1600px;
+	max-width: 1650px;
 	width: 100%;
 
-	&-head {
-		display: flex;
-		align-items: center;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 35px;
-		padding-left: 20px;
-		width: 100%;
-
-		@include media-breakpoint-down(xl) {
-			padding: 0 20px;
-		}
-
-		@include media-breakpoint-down(sm) {
-			gap: 15px;
-			margin-left: auto;
-			margin-right: auto;
-			margin-bottom: 20px;
-			padding: 0 10px;
-			max-width: 400px;
-		}
-	}
-
 	&-name {
-		background-color: #e1e1e1;
+		background-color: $gray;
 		border-radius: 4px;
 		display: inline-block;
 		color: $black;
@@ -38,17 +15,59 @@
 		font-size: 28px;
 		font-weight: 600;
 		margin: 0 auto;
-		padding: 5px 10px;
+		padding: 10px 15px;
 		text-align: center;
 
+		@include media-breakpoint-down(xl) {
+			font-size: 22px;
+			padding: 5px 10px;
+		}
+
 		@include media-breakpoint-down(md) {
-			font-size: 20px;
+			font-size: 19px;
+			padding: 0;
 		}
 
 		@include media-breakpoint-down(sm) {
 			font-size: 16px;
-			padding: 5px 10px;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 0 5px;
+			max-width: 400px;
 		}
+	}
+
+	&-head {
+		display: flex;
+		margin-bottom: 35px;
+		align-items: center;
+		gap: 40px;
+
+		@include media-breakpoint-down(xl) {
+			padding: 0 20px;
+		}
+
+		@include media-breakpoint-down(lg) {
+			gap: 15px;
+		}
+
+		@include media-breakpoint-down(sm) {
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: flex-start;
+			margin-bottom: 20px;
+			padding: 0 10px;
+		}
+	}
+
+	&-title {
+		color: $black;
+		font-style: italic;
+		font-weight: 500;
+	}
+
+	&-info {
+		padding: 0 10px;
 	}
 
 	&-content {
@@ -66,7 +85,6 @@
 	&-image {
 		border: 1px solid $white;
 		position: relative;
-		// width: 420px;
 		width: 100%;
 
 		@include media-breakpoint-down(xl) {
@@ -75,47 +93,24 @@
 		}
 
 		@include media-breakpoint-down(lg) {
-			height: 450px;
-			width: 370px;
+			width: 380px;
 		}
 
 		@include media-breakpoint-down(md) {
-			height: 350px;
-			width: 330px;
+			height: 450px;
+			width: 300px;
 		}
 
 		@include media-breakpoint-down(sm) {
+			height: 390px;
 			width: 370px;
-			height: 350px;
 		}
 	}
 
 	&-description {
 		border: 1px solid $white;
 		padding-bottom: 10px;
-		width: 70%;
-
-		@include media-breakpoint-down(xl) {
-			width: 440px;
-		}
-
-		@include media-breakpoint-down(lg) {
-			width: 340px;
-		}
-
-		@include media-breakpoint-down(md) {
-			width: 300px;
-		}
-
-		@include media-breakpoint-down(sm) {
-			width: 370px;
-		}
-	}
-
-	&-comics {
-		border: 1px solid $white;
-		padding-bottom: 10px;
-		width: 450px;
+		// width: 260px;
 		width: 100%;
 
 		@include media-breakpoint-down(xl) {
@@ -123,28 +118,7 @@
 		}
 
 		@include media-breakpoint-down(lg) {
-			width: 370px;
-		}
-		@include media-breakpoint-down(md) {
-			width: 330px;
-		}
-		@include media-breakpoint-down(sm) {
-			width: 370px;
-		}
-	}
-
-	&-series {
-		border: 1px solid $white;
-		padding-bottom: 10px;
-		width: 320px;
-		width: 100%;
-
-		@include media-breakpoint-down(xl) {
-			width: 440px;
-		}
-
-		@include media-breakpoint-down(lg) {
-			width: 340px;
+			width: 380px;
 		}
 
 		@include media-breakpoint-down(md) {
@@ -156,7 +130,51 @@
 		}
 	}
 
-	&-title {
+	&-characters {
+		border: 1px solid $white;
+		padding-bottom: 10px;
+		// width: 450px;
+		width: 100%;
+
+		@include media-breakpoint-down(xl) {
+			width: 470px;
+		}
+
+		@include media-breakpoint-down(lg) {
+			width: 380px;
+		}
+		@include media-breakpoint-down(md) {
+			width: 300px;
+		}
+
+		@include media-breakpoint-down(sm) {
+			width: 370px;
+		}
+	}
+
+	&-stories {
+		border: 1px solid $white;
+		padding-bottom: 10px;
+		width: 100%;
+
+		@include media-breakpoint-down(xl) {
+			width: 470px;
+		}
+
+		@include media-breakpoint-down(lg) {
+			width: 380px;
+		}
+
+		@include media-breakpoint-down(md) {
+			width: 300px;
+		}
+
+		@include media-breakpoint-down(sm) {
+			width: 370px;
+		}
+	}
+
+	&-boxTitle {
 		background-color: $black;
 		color: $white;
 		font-family: $font-primary;
@@ -173,36 +191,40 @@
 		color: $white;
 		font-family: $font-secondary;
 		font-size: 16px;
+		font-weight: 500;
 		padding: 0 10px;
+		margin-bottom: 10px;
 		text-align: left;
-		margin-bottom: 0;
+
+		@include media-breakpoint-down(xl) {
+			font-size: 13px;
+		}
 	}
 
-	&.notAvaible {
+	.notAvaible {
 		border: none;
 		color: $white;
 		font-family: $font-secondary;
 		font-size: 16px;
 		padding: 0 10px;
 		margin-top: 0;
-		text-align: center;
+		// text-align: center;
 		width: 100%;
 	}
 
-	.containerComics {
-		border-bottom: 1px solid $white;
-
-		&:last-of-type {
-			border: none;
-		}
-
-		&:hover {
-			cursor: pointer;
-			background-color: #f7f7f72c;
-		}
+	&-list {
+		padding-left: 40px;
 	}
 
-	.containerStories {
+	.resume {
+		font-style: italic;
+	}
+
+	.creators {
+		padding: 0;
+	}
+
+	.containerCharacters {
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
@@ -216,6 +238,26 @@
 			cursor: pointer;
 			background-color: #f7f7f72c;
 		}
+	}
+
+	.containerComics {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		border-bottom: 1px solid $white;
+
+		&:last-of-type {
+			border: none;
+		}
+
+		&:hover {
+			cursor: pointer;
+			background-color: #f7f7f72c;
+		}
+	}
+
+	.character {
+		margin: 0;
 	}
 
 	.comic {
