@@ -28,10 +28,12 @@ const Favorites = () => {
 				</h2>
 
 				<div className='Favorites-filters'>
-					<Button className={`Button ${category === 'CHARACTER' && 'active'}`} onClick={handleClick('CHARACTER')}>
+					<Button
+						className={`Button filtersFavs ${category === 'CHARACTER' && 'active'}`}
+						onClick={handleClick('CHARACTER')}>
 						Characters
 					</Button>
-					<Button className={`Button ${category === 'COMIC' && 'active'}`} onClick={handleClick('COMIC')}>
+					<Button className={`Button filtersFavs ${category === 'COMIC' && 'active'}`} onClick={handleClick('COMIC')}>
 						Comics
 					</Button>
 				</div>

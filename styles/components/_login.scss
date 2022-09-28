@@ -5,14 +5,18 @@
 	width: 100%;
 
 	&-container {
+		bottom: 50%;
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 		justify-content: center;
 		position: absolute;
 		top: 50%;
-		bottom: 50%;
 		width: 100%;
+
+		@include media-breakpoint-down(sm) {
+			padding: 0 10px;
+		}
 	}
 
 	&-image {
@@ -72,7 +76,8 @@
 		border-radius: 10px;
 		box-shadow: 1px 1px 50px $black;
 		padding: 20px;
-		width: 500px;
+		max-width: 500px;
+		width: 100%;
 	}
 
 	&-title {

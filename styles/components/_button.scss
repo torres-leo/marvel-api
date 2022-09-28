@@ -23,4 +23,8 @@
 	&.active {
 		border: 2px solid $white;
 	}
+
+	&.filtersFavs {
+		width: 120px;
+	}
 }

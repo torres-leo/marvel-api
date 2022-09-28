@@ -31,7 +31,6 @@ const Login = () => {
 			<div className='Login-container'>
 				<LoginForm />
 			</div>
-			{/* <div className='Login-line' /> */}
 		</div>
 	);
 };

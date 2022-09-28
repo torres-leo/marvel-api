@@ -34,6 +34,10 @@
 		gap: 40px;
 		justify-content: center;
 		margin-bottom: 50px;
+
+		@include media-breakpoint-down(lg) {
+			gap: 25px;
+		}
 	}
 
 	&-cards {
