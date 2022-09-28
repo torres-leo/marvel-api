@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
 import { useSelector } from 'react-redux';
@@ -17,12 +17,12 @@ const Comics = ({ comics }) => {
 	const [searchedComic, setSearchedComic] = useState([]);
 	const [favoritesList, setFavoritesList] = useState([]);
 	const [hasMore, setHasMore] = useState(true);
-	const [pageLimit, setPageLimit] = useState(20);
 	const [pages, setPages] = useState(0);
-	const [offset, setOffset] = useState(20);
 	const [inputValue, setInputValue] = useState('');
 	const [active, setActive] = useState('Title');
 	const [error, setError] = useState('');
+	const offset = 20;
+	const pageLimit = 20;
 
 	const isLogged = useSelector((state) => state.user.isLogged);
 	const userToken = useSelector((state) => state.user.userToken);
@@ -39,36 +39,41 @@ const Comics = ({ comics }) => {
 	useDebounce(
 		() => {
 			const search = async () => {
-				if (error) return;
-				let params = {};
-				if (inputValue.length) {
-					params = { titleStartsWith: inputValue, limit: 50 };
+				try {
+					if (error) return;
+					let params = {};
+					const value = inputValue.trim();
+					if (value) {
+						params = { titleStartsWith: value, limit: 50 };
 
-					if (active === 'Format') {
-						params = { format: inputValue.trim(), limit: 100 };
-					}
+						if (active === 'Format') {
+							params = { format: value, limit: 100 };
+						}
 
-					if (active === 'Issue') {
-						params = { issueNumber: inputValue, limit: 100 };
-					}
-					const { data } = await axiosClient(`/comics`, {
-						params,
-					});
-					const searchedComic = data.data.results;
-					if (!searchedComic.length) {
-						setError('Comic Not Found');
+						if (active === 'Issue') {
+							params = { issueNumber: inputValue, limit: 100 };
+						}
+						const { data } = await axiosClient(`/comics`, {
+							params,
+						});
+						const searchedComic = data.data.results;
+						if (!searchedComic.length) {
+							setError('Comic Not Found');
+						} else {
+							setError('');
+							setSearchedComic(searchedComic);
+						}
 					} else {
 						setError('');
-						setSearchedComic(searchedComic);
+						setSearchedComic([]);
 					}
-				} else {
-					setError('');
-					setSearchedComic([]);
+				} catch (error) {
+					return error;
 				}
 			};
 			search();
 		},
-		200,
+		800,
 		[inputValue]
 	);
 
@@ -78,30 +83,61 @@ const Comics = ({ comics }) => {
 		setInputValue('');
 	};
 
-	const handleChange = (e) => {
-		setInputValue(e.target.value);
-	};
+	const handleChange = useCallback(
+		(e) => {
+			setInputValue(e.target.value);
+		},
+		[inputValue]
+	);
 
-	const getMoreComics = () => {
+	const getMoreComics = useCallback(() => {
 		setPages((prevState) => prevState + 1);
-	};
+	}, []);
 
 	useEffect(() => {
 		if (!pages) return;
 		const getInfoCharacters = async () => {
-			let params = { limit: pageLimit, offset: offset * pages };
-			const { data } = await axiosClient(`/comics`, {
-				params,
-			});
-			const getComics = data.data.results;
-			setListComics((prevState) => [...prevState, ...getComics]);
-			setHasMore(listComics.length <= data.data.total);
+			try {
+				let params = { limit: pageLimit, offset: offset * pages };
+				const { data } = await axiosClient(`/comics`, {
+					params,
+				});
+				const getComics = data.data.results;
+				setListComics((prevState) => [...prevState, ...getComics]);
+				setHasMore(listComics.length <= data.data.total);
+			} catch (error) {
+				return error;
+			}
 		};
 		getInfoCharacters();
 		//eslint-disable-next-line
 	}, [pages]);
 
-	const renderSearchedComic = () => {
+	const getComicsFavorites = async () => {
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${userToken}`,
+				},
+			};
+			const { data } = await axiosAPI('/favorites', {
+				params: { category: 'COMIC' },
+				...config,
+			});
+			setFavoritesList(data);
+		} catch (error) {
+			return error;
+		}
+	};
+
+	useEffect(() => {
+		if (isLogged) {
+			getComicsFavorites();
+		}
+	}, []);
+
+	const renderSearchedComic = useMemo(() => {
 		if (error)
 			return (
 				<div className='NotFound'>
@@ -113,9 +149,9 @@ const Comics = ({ comics }) => {
 		return searchedComic.map((comic) => (
 			<ComicsCard key={uuidv4()} comic={comic} getComicsFavorites={getComicsFavorites} favoritesList={favoritesList} />
 		));
-	};
+	}, [error, favoritesList, searchedComic, getComicsFavorites]);
 
-	const renderComics = () => {
+	const renderComics = useMemo(() => {
 		if (error)
 			return (
 				<div className='NotFound'>
@@ -126,27 +162,17 @@ const Comics = ({ comics }) => {
 		return listComics.map((comic) => (
 			<ComicsCard key={uuidv4()} comic={comic} getComicsFavorites={getComicsFavorites} favoritesList={favoritesList} />
 		));
-	};
+	}, [error, listComics, favoritesList, getComicsFavorites]);
 
-	const getComicsFavorites = async () => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${userToken}`,
-			},
-		};
-		const { data } = await axiosAPI('/favorites', {
-			params: { category: 'COMIC' },
-			...config,
-		});
-		setFavoritesList(data);
-	};
-
-	useEffect(() => {
-		if (isLogged) {
-			getComicsFavorites();
-		}
-	}, []);
+	const renderData = useMemo(() => {
+		if (!searchedComic.length)
+			return (
+				<InfiniteScroll dataLength={listComics.length} hasMore={hasMore} next={getMoreComics}>
+					<div className='Comics-list'>{renderComics}</div>
+				</InfiniteScroll>
+			);
+		return <div className='Comics-list'>{renderSearchedComic}</div>;
+	}, [searchedComic, listComics, favoritesList, getComicsFavorites]);
 
 	return (
 		<div className='Comics'>
@@ -195,15 +221,7 @@ const Comics = ({ comics }) => {
 						</Button>
 					</div>
 				</div>
-				<>
-					{!searchedComic.length ? (
-						<InfiniteScroll dataLength={listComics.length} hasMore={hasMore} next={getMoreComics}>
-							<div className='Comics-list'>{renderComics()}</div>
-						</InfiniteScroll>
-					) : (
-						<div className='Comics-list'>{renderSearchedComic()}</div>
-					)}
-				</>
+				{renderData}
 			</div>
 		</div>
 	);

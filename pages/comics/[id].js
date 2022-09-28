@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Image from 'next/image';
 import ReactHtmlParser from 'react-html-parser';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,14 +18,12 @@ const Comic = ({ response, responseCharacters, responseStories }) => {
 		thumbnail: { path, extension },
 	} = comic;
 
-	console.log(comic);
-
-	const renderDescription = () => {
+	const renderDescription = useMemo(() => {
 		if (!description) return <span className='Comic-text notAvaible'>Description not avaible.</span>;
 		return <span className='Comic-text resume'>{ReactHtmlParser(description)}</span>;
-	};
+	}, [description]);
 
-	const renderCreators = () => {
+	const renderCreators = useMemo(() => {
 		if (!creators.length) return <p className='Comic-text notAvaible'>Creators not avaible.</p>;
 
 		return creators.map((creator, index) => (
@@ -33,9 +31,9 @@ const Comic = ({ response, responseCharacters, responseStories }) => {
 				{creator.name}.
 			</li>
 		));
-	};
+	}, [creators]);
 
-	const renderCharacters = () => {
+	const renderCharacters = useMemo(() => {
 		if (!characters.length) return <p className='notAvaible'>No characters Avaible</p>;
 		return characters.map((character) => {
 			const {
@@ -53,28 +51,42 @@ const Comic = ({ response, responseCharacters, responseStories }) => {
 							src={`${path}.${extension}`}
 							alt={`Image ${name}`}
 							objectFit='cover'
+							loading='lazy'
 						/>
 						<p className='Comic-text character'>{name}</p>
 					</div>
 				</Link>
 			);
 		});
-	};
+	}, [characters]);
 
-	const renderStories = () => {
+	const renderStories = useMemo(() => {
 		if (!stories) return <p className='notAvaible'>No Stories Avaible</p>;
 
 		return stories.map((story) => {
-			const { id, title } = story;
+			const { id, title, thumbnail } = story;
 			return (
 				<Link href={`/stories/${id}`} key={uuidv4()}>
 					<div className='containerStories'>
+						<Image
+							width={38}
+							height={38}
+							layout='fixed'
+							src={`${
+								thumbnail
+									? `${thumbnail.path}.${thumbnail.extension}`
+									: 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+							}
+					`}
+							alt={`Image ${title}`}
+							objectFit='cover'
+						/>
 						<p className='Character-text'>{title}</p>
 					</div>
 				</Link>
 			);
 		});
-	};
+	}, [stories]);
 
 	return (
 		<div className='Comic'>
@@ -98,21 +110,21 @@ const Comic = ({ response, responseCharacters, responseStories }) => {
 						<span>Description</span>
 					</h2>
 
-					<p className='Comic-text '>Resume:{renderDescription()}</p>
+					<p className='Comic-text '>Resume:{renderDescription}</p>
 					<p className='Comic-text '>Creators:</p>
-					<ul className='Comic-list'> {renderCreators()}</ul>
+					<ul className='Comic-list'> {renderCreators}</ul>
 				</div>
 				<div className='Comic-characters'>
 					<h2 className='Comic-boxTitle'>
 						<span>Characters Appearance</span>
 					</h2>
-					<div className='Comic-info'>{renderCharacters()}</div>
+					<div className='Comic-info'>{renderCharacters}</div>
 				</div>
 				<div className='Comic-stories'>
 					<h2 className='Comic-boxTitle'>
 						<span>Stories</span>
 					</h2>
-					{renderStories()}
+					{renderStories}
 				</div>
 			</div>
 		</div>

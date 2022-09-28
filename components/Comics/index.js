@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ const ComicsCard = ({ comic, favoritesList, getComicsFavorites }) => {
 		thumbnail: { path, extension },
 	} = comic;
 
-	const renderComicsFavs = () => {
+	const renderComicsFavs = useCallback(() => {
 		if (!isLogged) return;
 
 		const idExist = favoritesList.some((favorite) => favorite.marvelId === comic.id);
@@ -22,9 +22,9 @@ const ComicsCard = ({ comic, favoritesList, getComicsFavorites }) => {
 		if (idExist && isLogged) return <Icon className='fa-solid fa-heart icon-heart' onClick={onDelete} />;
 
 		return <Icon className='fa-regular fa-heart icon-heart' onClick={addFavorite} />;
-	};
+	}, [addFavorite, comic, favoritesList, isLogged, onDelete]);
 
-	const addFavorite = async () => {
+	const addFavorite = useCallback(async () => {
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
@@ -33,31 +33,34 @@ const ComicsCard = ({ comic, favoritesList, getComicsFavorites }) => {
 		};
 		await axiosAPI.post('/favorites', { category: 'COMIC', marvelId: id }, config);
 		getComicsFavorites();
-	};
+	}, [getComicsFavorites, userToken, id]);
 
-	const deleteFavorite = async (comicId) => {
-		const indexCharacter = favoritesList.findIndex((element) => element.marvelId === comicId);
-		const { id } = favoritesList[indexCharacter];
+	const deleteFavorite = useCallback(
+		async (comicId) => {
+			const indexCharacter = favoritesList.findIndex((element) => element.marvelId === comicId);
+			const { id } = favoritesList[indexCharacter];
 
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${userToken}`,
-			},
-		};
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${userToken}`,
+				},
+			};
 
-		await axiosAPI.delete(`/favorites/${id}`, config);
-		getComicsFavorites();
-	};
+			await axiosAPI.delete(`/favorites/${id}`, config);
+			getComicsFavorites();
+		},
+		[favoritesList, getComicsFavorites, userToken]
+	);
 
-	const onDelete = () => {
+	const onDelete = useCallback(() => {
 		deleteFavorite(comic.id);
-	};
+	}, [comic, deleteFavorite]);
 
 	return (
 		<article className='Card comic'>
 			<div className='Card-image'>
-				<Image layout='fill' src={`${path}.${extension}`} alt={`Image ${title}`} quality={100} priority />
+				<Image layout='fill' src={`${path}.${extension}`} alt={`Image ${title}`} quality={100} loading='lazy' />
 				{renderComicsFavs()}
 			</div>
 			<div className='Card-info comic'>

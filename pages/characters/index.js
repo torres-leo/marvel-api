@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import AsyncSelect from 'react-select/async';
 import Input from '/components/Input';
 import CharacterCard from '../../components/Character';
@@ -15,14 +16,14 @@ const Characters = ({ characters }) => {
 	const [searchedCharacter, setSearchedCharacter] = useState([]);
 	const [favoritesList, setFavoritesList] = useState([]);
 	const [hasMore, setHasMore] = useState(true);
-	const [pageLimit, setPageLimit] = useState(20);
 	const [pages, setPages] = useState(0);
-	const [offset, setOffset] = useState(20);
 	const [inputValue, setInputValue] = useState('');
 	const [inputSelect, setInputSelect] = useState('');
 	const [selectedValue, setSelectedValue] = useState(null);
 	const [active, setActive] = useState('Name');
 	const [error, setError] = useState('');
+	const offset = 20;
+	const pageLimit = 20;
 
 	const isLogged = useSelector((state) => state.user.isLogged);
 	const userToken = useSelector((state) => state.user.userToken);
@@ -51,33 +52,41 @@ const Characters = ({ characters }) => {
 	useDebounce(
 		() => {
 			const search = async () => {
-				let params = {};
-				if (inputValue.length) {
-					params = { nameStartsWith: inputValue, limit: 100 };
-					const { data } = await axiosClient(`/characters`, {
-						params,
-					});
-					const character = data.data.results;
-					if (!character.length) {
-						setError('Character(s) not Found');
+				try {
+					let params = {};
+					const value = inputValue.trim();
+					if (value) {
+						params = { nameStartsWith: value, limit: 100 };
+						const { data } = await axiosClient(`/characters`, {
+							params,
+						});
+						const character = data.data.results;
+						if (!character.length) {
+							setError('Character(s) not Found');
+						} else {
+							setError('');
+							setSearchedCharacter(character);
+						}
 					} else {
 						setError('');
-						setSearchedCharacter(character);
+						setSearchedCharacter([]);
 					}
-				} else {
-					setError('');
-					setSearchedCharacter([]);
+				} catch (error) {
+					return error;
 				}
 			};
 			search();
 		},
-		100,
+		800,
 		[inputValue]
 	);
 
-	const handleChange = (e) => {
-		setInputValue(e.target.value);
-	};
+	const handleChange = useCallback(
+		(e) => {
+			setInputValue(e.target.value);
+		},
+		[inputValue]
+	);
 
 	const handleClick = (name) => () => {
 		setActive(name);
@@ -86,45 +95,84 @@ const Characters = ({ characters }) => {
 		setSelectedValue(null);
 	};
 
-	const handleInputSelect = (value) => {
-		setInputSelect(value);
-	};
+	const handleInputSelect = useCallback(
+		(value) => {
+			setInputSelect(value);
+		},
+		[inputSelect]
+	);
 
-	const handleChangeSelect = (value) => {
-		setSelectedValue(value);
-	};
+	const handleChangeSelect = useCallback(
+		(value) => {
+			setSelectedValue(value);
+		},
+		[selectedValue]
+	);
 
 	const loadOptions = async (inputSelect, callback) => {
-		let params = {};
-
-		if (inputSelect.length) {
-			params = { titleStartsWith: inputSelect, limit: 50 };
+		try {
+			let params = {};
+			const value = inputSelect.trim();
+			if (value) {
+				params = { titleStartsWith: value, limit: 50 };
+			}
+			const { data } = await axiosClient('/comics', { params });
+			const searchedComic = data.data.results;
+			callback(searchedComic.map((comic) => ({ label: `${comic.title}`, value: `${comic.id}` })));
+		} catch (error) {
+			return error;
 		}
-		const { data } = await axiosClient('/comics', { params });
-		const searchedComic = data.data.results;
-		callback(searchedComic.map((comic) => ({ label: `${comic.title}`, value: `${comic.id}` })));
 	};
 
-	const getMoreCharacters = () => {
+	const getMoreCharacters = useCallback(() => {
 		setPages((prevState) => prevState + 1);
-	};
+	}, []);
 
 	useEffect(() => {
 		if (!pages) return;
 		const getInfoCharacters = async () => {
-			let params = { limit: pageLimit, offset: offset * pages };
-			const { data } = await axiosClient(`/characters`, {
-				params,
-			});
-			const getCharacters = data.data.results;
-			setListCharacters((prevState) => [...prevState, ...getCharacters]);
-			setHasMore(listCharacters.length <= data.data.total);
+			try {
+				let params = { limit: pageLimit, offset: offset * pages };
+				const { data } = await axiosClient(`/characters`, {
+					params,
+				});
+				const getCharacters = data.data.results;
+				setListCharacters((prevState) => [...prevState, ...getCharacters]);
+				setHasMore(listCharacters.length <= data.data.total);
+			} catch (error) {
+				return error;
+			}
 		};
 		getInfoCharacters();
 		//eslint-disable-next-line
 	}, [pages]);
 
-	const renderSearchedCharacter = () => {
+	const getCharactersFavorites = async () => {
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${userToken}`,
+				},
+			};
+			const { data } = await axiosAPI('/favorites', {
+				params: { category: 'CHARACTER' },
+				...config,
+			});
+			setFavoritesList(data);
+		} catch (error) {
+			return error;
+		}
+	};
+
+	useEffect(() => {
+		if (isLogged) {
+			getCharactersFavorites();
+		}
+		//eslint-disable-next-line
+	}, []);
+
+	const renderSearchedCharacter = useMemo(() => {
 		if (error)
 			return (
 				<div className='NotFound'>
@@ -141,9 +189,9 @@ const Characters = ({ characters }) => {
 				getCharactersFavorites={getCharactersFavorites}
 			/>
 		));
-	};
+	}, [error, searchedCharacter, favoritesList, getCharactersFavorites]);
 
-	const renderCharacters = () => {
+	const renderCharacters = useMemo(() => {
 		if (error)
 			return (
 				<div className='NotFound'>
@@ -160,28 +208,18 @@ const Characters = ({ characters }) => {
 				getCharactersFavorites={getCharactersFavorites}
 			/>
 		));
-	};
+	}, [error, listCharacters, favoritesList, getCharactersFavorites]);
 
-	const getCharactersFavorites = async () => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${userToken}`,
-			},
-		};
-		const { data } = await axiosAPI('/favorites', {
-			params: { category: 'CHARACTER' },
-			...config,
-		});
-		setFavoritesList(data);
-	};
+	const renderData = useMemo(() => {
+		if (!searchedCharacter.length)
+			return (
+				<InfiniteScroll dataLength={listCharacters.length} hasMore={hasMore} next={getMoreCharacters}>
+					<div className='Characters-list'>{renderCharacters}</div>
+				</InfiniteScroll>
+			);
 
-	useEffect(() => {
-		if (isLogged) {
-			getCharactersFavorites();
-		}
-		//eslint-disable-next-line
-	}, []);
+		return <div className='Characters-list'>{renderSearchedCharacter}</div>;
+	}, [searchedCharacter, listCharacters, favoritesList, getCharactersFavorites]);
 
 	return (
 		<div className='Characters'>
@@ -220,15 +258,7 @@ const Characters = ({ characters }) => {
 						</Button>
 					</div>
 				</div>
-				<>
-					{!searchedCharacter.length ? (
-						<InfiniteScroll dataLength={listCharacters.length} hasMore={hasMore} next={getMoreCharacters}>
-							<div className='Characters-list'>{renderCharacters()}</div>
-						</InfiniteScroll>
-					) : (
-						<div className='Characters-list'>{renderSearchedCharacter()}</div>
-					)}
-				</>
+				{renderData}
 			</div>
 		</div>
 	);

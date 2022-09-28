@@ -19,7 +19,7 @@ const StoryCard = ({ story }) => {
 					`}
 					alt={`Image ${ReactHtmlParser(title)}`}
 					quality={100}
-					priority
+					loading='lazy'
 				/>
 			</div>
 			<div className='Card-info story'>

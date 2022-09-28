@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ReactHtmlParser from 'react-html-parser';
@@ -17,43 +17,68 @@ const Character = ({ response, responseComics, responseStories }) => {
 		description,
 		thumbnail: { path, extension },
 	} = character;
-	console.log(stories);
 
-	const renderComics = () => {
+	const renderComics = useMemo(() => {
 		if (!comics) return <p className='Character notAvaible'>No comics</p>;
 
 		return comics.map((comic) => {
-			const { id, title } = comic;
+			const {
+				id,
+				title,
+				thumbnail: { path, extension },
+			} = comic;
 			return (
 				<Link href={`/comics/${id}`} key={comic.id}>
 					<div className='containerComics'>
+						<Image
+							width={42}
+							height={42}
+							layout='fixed'
+							src={`${path}.${extension}`}
+							alt={`Image ${title}`}
+							objectFit='cover'
+							loading='lazy'
+						/>
 						<p className='Character-text'>{title}</p>
 					</div>
 				</Link>
 			);
 		});
-	};
+	}, [comics]);
 
-	const renderStories = () => {
+	const renderStories = useMemo(() => {
 		if (!stories) return <p className='notAvaible'>No Stories Avaible</p>;
 
 		return stories.map((story) => {
-			const { id, title } = story;
+			const { id, title, thumbnail } = story;
 			return (
 				<Link href={`/stories/${id}`} key={uuidv4()}>
 					<div className='containerStories'>
+						<Image
+							width={38}
+							height={38}
+							layout='fixed'
+							src={`${
+								thumbnail
+									? `${thumbnail.path}.${thumbnail.extension}`
+									: 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+							}
+					`}
+							alt={`Image ${title}`}
+							objectFit='cover'
+						/>
 						<p className='Character-text'>{title}</p>
 					</div>
 				</Link>
 			);
 		});
-	};
+	}, [stories]);
 
-	const renderDescription = () => {
+	const renderDescription = useMemo(() => {
 		if (!description) return <p className='Character notAvaible'>Resume not avaible.</p>;
 
 		return <p className='Character-text'>{ReactHtmlParser(description)}</p>;
-	};
+	}, [description]);
 
 	return (
 		<div className='Character'>
@@ -76,19 +101,19 @@ const Character = ({ response, responseComics, responseStories }) => {
 					<h2 className='Character-title'>
 						<span>Description</span>
 					</h2>
-					{renderDescription()}
+					{renderDescription}
 				</div>
 				<div className='Character-comics'>
 					<h2 className='Character-title'>
 						<span>Comics</span>
 					</h2>
-					{renderComics()}
+					{renderComics}
 				</div>
 				<div className='Character-series'>
 					<h2 className='Character-title'>
 						<span>Stories</span>
 					</h2>
-					{renderStories()}
+					{renderStories}
 				</div>
 			</div>
 		</div>

@@ -14,9 +14,6 @@ const Story = ({ response, responseComics, responseCharacters }) => {
 	const [creators] = [story.creators.item];
 
 	const { title, description, thumbnail } = story;
-	console.log(story);
-	// console.log(comics);
-	console.log(creators);
 
 	const renderDescription = () => {
 		if (!description) return <span className='Story-text notAvaible'>Description not avaible.</span>;

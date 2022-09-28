@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
@@ -8,7 +8,6 @@ import Icon from '/components/Icon';
 const CharacterCard = ({ character, favoritesList, getCharactersFavorites }) => {
 	const isLogged = useSelector((state) => state.user.isLogged);
 	const userToken = useSelector((state) => state.user.userToken);
-	const [] = useState([character.thumbnail]);
 
 	const {
 		id,
@@ -16,7 +15,7 @@ const CharacterCard = ({ character, favoritesList, getCharactersFavorites }) => 
 		thumbnail: { path, extension },
 	} = character;
 
-	const renderCharactersFavs = () => {
+	const renderCharactersFavs = useCallback(() => {
 		if (!isLogged) return;
 
 		const idExist = favoritesList.some((favorite) => favorite.marvelId === character.id);
@@ -24,42 +23,54 @@ const CharacterCard = ({ character, favoritesList, getCharactersFavorites }) => 
 		if (idExist && isLogged) return <Icon className='fa-solid fa-heart icon-heart' onClick={onDelete} />;
 
 		return <Icon className='fa-regular fa-heart icon-heart' onClick={addFavorite} />;
-	};
+	}, [favoritesList, isLogged, character, addFavorite, onDelete]);
 
-	const addFavorite = async () => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${userToken}`,
-			},
-		};
-		await axiosAPI.post('/favorites', { category: 'CHARACTER', marvelId: id }, config);
-		getCharactersFavorites();
-	};
+	const addFavorite = useCallback(async () => {
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${userToken}`,
+				},
+			};
 
-	const deleteFavorite = async (characterId) => {
-		const indexCharacter = favoritesList.findIndex((element) => element.marvelId === characterId);
-		const { id } = favoritesList[indexCharacter];
+			await axiosAPI.post('/favorites', { category: 'CHARACTER', marvelId: id }, config);
+			getCharactersFavorites();
+		} catch (error) {
+			return error;
+		}
+	}, [getCharactersFavorites, userToken, id]);
 
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${userToken}`,
-			},
-		};
+	const deleteFavorite = useCallback(
+		async (characterId) => {
+			try {
+				const indexCharacter = favoritesList.findIndex((element) => element.marvelId === characterId);
+				const { id } = favoritesList[indexCharacter];
 
-		await axiosAPI.delete(`/favorites/${id}`, config);
-		getCharactersFavorites();
-	};
+				const config = {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${userToken}`,
+					},
+				};
 
-	const onDelete = () => {
+				await axiosAPI.delete(`/favorites/${id}`, config);
+				getCharactersFavorites();
+			} catch (error) {
+				return error;
+			}
+		},
+		[favoritesList, getCharactersFavorites, userToken]
+	);
+
+	const onDelete = useCallback(() => {
 		deleteFavorite(character.id);
-	};
+	}, [character, deleteFavorite]);
 
 	return (
 		<article className='Card'>
 			<div className='Card-image'>
-				<Image layout='fill' src={`${path}.${extension}`} alt={`Image ${name} `} quality={100} priority />
+				<Image layout='fill' src={`${path}.${extension}`} alt={`Image ${name} `} quality={100} loading='lazy' />
 				{renderCharactersFavs()}
 			</div>
 			<div className='Card-info'>
