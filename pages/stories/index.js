@@ -44,7 +44,7 @@ const Stories = ({ stories }) => {
 	);
 };
 
-Stories.getLayout = (page) => <Layout>{page}</Layout>;
+Stories.getLayout = (page) => <Layout pageName='Stories'>{page}</Layout>;
 
 export async function getServerSideProps() {
 	const { data } = await axiosClient('/stories', { params: { limit: 20, offset: 0 } });

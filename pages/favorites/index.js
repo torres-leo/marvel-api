@@ -42,6 +42,6 @@ const Favorites = () => {
 		</div>
 	);
 };
-Favorites.getLayout = (page) => <Layout>{page}</Layout>;
+Favorites.getLayout = (page) => <Layout pageName='Favorites'>{page}</Layout>;
 
 export default Favorites;

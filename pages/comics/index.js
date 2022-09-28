@@ -227,7 +227,7 @@ const Comics = ({ comics }) => {
 	);
 };
 
-Comics.getLayout = (page) => <Layout>{page}</Layout>;
+Comics.getLayout = (page) => <Layout pageName='Comics'>{page}</Layout>;
 
 export async function getServerSideProps() {
 	const { data } = await axiosClient('/comics', { params: { limit: 20, offset: 0 } });

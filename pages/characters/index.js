@@ -221,6 +221,19 @@ const Characters = ({ characters }) => {
 		return <div className='Characters-list'>{renderSearchedCharacter}</div>;
 	}, [searchedCharacter, listCharacters, favoritesList, getCharactersFavorites]);
 
+	const customClass = (value) => {
+		switch (value) {
+			case 'Name':
+				break;
+			case 'Comics':
+				break;
+
+			default:
+				break;
+		}
+		// if (active === value) return 'activeInput';
+	};
+
 	return (
 		<div className='Characters'>
 			<div className='Characters-container'>
@@ -234,7 +247,8 @@ const Characters = ({ characters }) => {
 						</label>
 						<Input
 							type='text'
-							className={`Characters-input ${active === 'Name' ? 'activeInput' : ''}`}
+							// className={`Characters-input ${active === 'Name' ? 'activeInput' : ''}`}
+							className={`Characters-input ${customClass('Name')}`}
 							placeholder={`${active === 'Name' && 'Find character by name..'}`}
 							onChange={handleChange}
 						/>

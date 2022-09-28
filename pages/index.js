@@ -7,7 +7,7 @@ const Home = ({ characters }) => {
 	return <Characters characters={characters} />;
 };
 
-Home.getLayout = (page) => <Layout>{page}</Layout>;
+Home.getLayout = (page) => <Layout pageName='Characters'>{page}</Layout>;
 
 export default Home;
 

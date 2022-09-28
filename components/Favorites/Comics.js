@@ -66,7 +66,7 @@ const Comics = () => {
 			if (!comicsList.length)
 				return (
 					<div className='Favorites-notFound'>
-						<p className='Favorites-text'>You don't have Favorites Comics</p>
+						<p className='Favorites-text'>You don&apos;t have Favorites Comics</p>
 						<Icon className='fa-solid fa-circle-exclamation icon' />
 					</div>
 				);

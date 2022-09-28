@@ -3,11 +3,11 @@ import Head from 'next/head';
 import Header from '../Header';
 import AppNav from '../AppNav';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, pageName }) => {
 	return (
 		<>
 			<Head>
-				<title>Marvel API</title>
+				<title>Marvel API - {pageName}</title>
 				<meta name='description' content='Consume Marvel API' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>

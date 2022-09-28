@@ -66,7 +66,7 @@ const Characters = () => {
 			if (!charactersList.length)
 				return (
 					<div className='Favorites-notFound'>
-						<p className='Favorites-text'>You don't have Favorites Characters</p>
+						<p className='Favorites-text'>You don&apos;t have Favorites Characters</p>
 						<Icon className='fa-solid fa-circle-exclamation icon' />
 					</div>
 				);
