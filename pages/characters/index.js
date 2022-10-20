@@ -3,6 +3,8 @@ import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 import AsyncSelect from 'react-select/async';
+import debounce from 'lodash.debounce';
+import { AsyncPaginate } from 'react-select-async-paginate';
 import Input from '/components/Input';
 import CharacterCard from '../../components/Character';
 import axiosClient from '../../config/axios';
@@ -109,6 +111,17 @@ const Characters = ({ characters }) => {
 		[selectedValue]
 	);
 
+	const sleep = (ms) =>
+		new Promise((resolve) => {
+			setTimeout(() => {
+				resolve();
+			}, ms);
+		});
+
+	// const load = useDebounce(() => {
+
+	// }, loadOptions(), 800, [inputSelect]);
+
 	const loadOptions = async (inputSelect, callback) => {
 		try {
 			let params = {};
@@ -116,6 +129,7 @@ const Characters = ({ characters }) => {
 			if (value) {
 				params = { titleStartsWith: value, limit: 50 };
 			}
+
 			const { data } = await axiosClient('/comics', { params });
 			const searchedComic = data.data.results;
 			callback(searchedComic.map((comic) => ({ label: `${comic.title}`, value: `${comic.id}` })));
@@ -231,7 +245,7 @@ const Characters = ({ characters }) => {
 			default:
 				break;
 		}
-		// if (active === value) return 'activeInput';
+		if (active === value) return 'activeInput';
 	};
 
 	return (
@@ -258,10 +272,20 @@ const Characters = ({ characters }) => {
 							value={selectedValue}
 							placeholder={'Search a comic and see all characters appereance..'}
 							loadOptions={loadOptions}
+							// loadOptions={load}
 							onInputChange={handleInputSelect}
 							onChange={handleChangeSelect}
 							className={`select ${active === 'Comics' ? 'activeInput' : ''}`}
 						/>
+						{/* <AsyncPaginate
+							debounceTimeout={300}
+							value={selectedValue}
+							loadOptions={loadOptions}
+							onChange={handleChangeSelect}
+							onInputChange={handleInputSelect}
+							className={`select ${active === 'Comics' ? 'activeInput' : ''}`}
+							placeholder={'Search a comic and see all characters appereance..'}
+						/> */}
 					</form>
 					<div className='Characters-filters'>
 						<Button className={`Button ${active === 'Name' && 'active'}`} onClick={handleClick('Name')}>

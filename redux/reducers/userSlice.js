@@ -3,6 +3,7 @@ import axiosAPI from '../../config/axiosAPI';
 
 export const login = createAsyncThunk('user/login', async (data) => {
 	if ([data].includes('')) return;
+	console.log(data);
 	const response = await axiosAPI.post('/auth/login', { ...data });
 	return response.data;
 });
