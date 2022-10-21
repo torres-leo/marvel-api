@@ -24,6 +24,7 @@ const Characters = ({ characters }) => {
 	const [selectedValue, setSelectedValue] = useState(null);
 	const [active, setActive] = useState('Name');
 	const [error, setError] = useState('');
+	const [loadComics, setLoadComics] = useState([]);
 	const offset = 20;
 	const pageLimit = 20;
 
@@ -111,16 +112,34 @@ const Characters = ({ characters }) => {
 		[selectedValue]
 	);
 
-	const sleep = (ms) =>
-		new Promise((resolve) => {
-			setTimeout(() => {
-				resolve();
-			}, ms);
-		});
+	const load = useDebounce(
+		() => {
+			const loadOptions = async (callback) => {
+				try {
+					if (!inputSelect.length) return;
+					let params = {};
+					const value = inputSelect.trim();
+					if (value) {
+						params = { titleStartsWith: value, limit: 50 };
+					}
+					const { data } = await axiosClient('/comics', { params });
+					const searchedComic = data.data.results;
+					// setLoadComics(searchedComic);
+					return callback(searchedComic.map((comic) => ({ label: `${comic.title}`, value: `${comic.id}` })));
+				} catch (error) {
+					return error;
+				}
+			};
+			loadOptions();
+		},
+		800,
+		[inputSelect]
+	);
 
-	// const load = useDebounce(() => {
-
-	// }, loadOptions(), 800, [inputSelect]);
+	const loadOptionsComics = (inputSelect, callback) => {
+		if (!inputSelect) return;
+		callback(loadComics.map((comic) => ({ value: `${comic.id}`, label: `${comic.title}` })));
+	};
 
 	const loadOptions = async (inputSelect, callback) => {
 		try {
@@ -129,10 +148,9 @@ const Characters = ({ characters }) => {
 			if (value) {
 				params = { titleStartsWith: value, limit: 50 };
 			}
-
 			const { data } = await axiosClient('/comics', { params });
 			const searchedComic = data.data.results;
-			callback(searchedComic.map((comic) => ({ label: `${comic.title}`, value: `${comic.id}` })));
+			callback(searchedComic.map((comic) => ({ value: `${comic.id}`, label: `${comic.title}` })));
 		} catch (error) {
 			return error;
 		}
@@ -272,7 +290,7 @@ const Characters = ({ characters }) => {
 							value={selectedValue}
 							placeholder={'Search a comic and see all characters appereance..'}
 							loadOptions={loadOptions}
-							// loadOptions={load}
+							// loadOptions={() => load}
 							onInputChange={handleInputSelect}
 							onChange={handleChangeSelect}
 							className={`select ${active === 'Comics' ? 'activeInput' : ''}`}
