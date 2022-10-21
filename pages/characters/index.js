@@ -231,7 +231,7 @@ const Characters = ({ characters }) => {
 			default:
 				break;
 		}
-		// if (active === value) return 'activeInput';
+		if (active === value) return 'activeInput';
 	};
 
 	return (
